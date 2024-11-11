@@ -410,6 +410,12 @@ class AnswerRangesApi(APIView):
         result = kit_versions_services.get_answer_ranges(request, kit_version_id)
         return Response(data=result["body"], status=result["status_code"])
 
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT), responses={201: ""})
+    def post(self, request, kit_version_id):
+        result = kit_versions_services.create_answer_range(request, kit_version_id)
+        return Response(data=result["body"], status=result["status_code"])
+
 
 class AnswerRangeApi(APIView):
     permission_classes = [IsAuthenticated]
