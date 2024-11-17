@@ -62,6 +62,18 @@ jobs:
           DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN_BACKEND_STAGE }}
           APP_ID: ${{ secrets.APP_ID_BACKEND_STAGE }}
 
+  Backend_Deploy_With_Webhook:
+    needs: Backend_Push_Latest_Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy service on Webhook
+        run: |
+          status_code=$(curl --silent --output /dev/null --write-out "%{http_code}" -X POST "${{ secrets.DEPLOY_WEBHOOK_URL }}?tag=${GITHUB_SHA:0:7}")
+          if [ "$status_code" -ne 204 ]; then
+            echo "Unexpected status code: $status_code"
+            exit 1
+          fi
+
   Backend_Push_Image:
     if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
     needs: Sonar
