@@ -437,3 +437,11 @@ class AnswerOptionInAnswerRangeApi(APIView):
     def post(self, request, kit_version_id):
         result = kit_versions_services.create_answer_option_in_answer_range(request, kit_version_id)
         return Response(data=result["body"], status=result["status_code"])
+
+
+class KitVersionValidateApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, kit_version_id):
+        result = kit_versions_services.load_kit_version_validate(request, kit_version_id)
+        return Response(data=result["body"], status=result["status_code"])
