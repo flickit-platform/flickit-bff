@@ -52,4 +52,6 @@ urlpatterns = [
          kit_versions_views.AnswerRangeApi.as_view()),
     path("<str:kit_version_id>/answer-range-options/",
          kit_versions_views.AnswerOptionInAnswerRangeApi.as_view()),
+    path("<str:kit_version_id>/validate/",
+         kit_versions_views.KitVersionValidateApi.as_view()),
 ]
