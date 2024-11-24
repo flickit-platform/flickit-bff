@@ -137,3 +137,19 @@ class CloneAssessmentKitApi(APIView):
     def post(self, request, assessment_kit_id):
         result = assessment_kit_service.clone_assessment_kit(request, assessment_kit_id)
         return Response(data=result["body"], status=result["status_code"])
+
+
+class CustomSubjectApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
+                                   type=openapi.TYPE_INTEGER)
+    page_param = openapi.Parameter('page', openapi.IN_QUERY, description="page param",
+                                   type=openapi.TYPE_INTEGER)
+    kit_custom_id_param = openapi.Parameter('kitCustomId', openapi.IN_QUERY, description="kit_custom_id",
+                                            type=openapi.TYPE_INTEGER)
+
+    @swagger_auto_schema(manual_parameters=[size_param, page_param, kit_custom_id_param])
+    def get(self, request, assessment_kit_id):
+        result = assessment_kit_service.load_custom_subject(request, assessment_kit_id)
+        return Response(data=result["body"], status=result["status_code"])

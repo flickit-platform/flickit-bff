@@ -121,3 +121,11 @@ def clone_assessment_kit(request, assessment_kit_id):
         ASSESSMENT_URL + f'assessment-core/api/assessment-kits/{assessment_kit_id}/clone',
         headers={'Authorization': request.headers['Authorization']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
+def load_custom_subject(request, assessment_kit_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/assessment-kits/{assessment_kit_id}/custom-subjects',
+        params=request.query_params,
+        headers={'Authorization': request.headers['Authorization']})
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
