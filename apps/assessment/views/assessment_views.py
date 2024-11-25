@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from assessment.services import assessment_services
+from baseinfo.services import custom_kit_services
 
 
 class AssessmentApi(APIView):
@@ -88,4 +89,21 @@ class AssessmentMigrateKitVersionApi(APIView):
         result = assessment_services.assessment_migrate_kit_version(request, assessment_id)
         if result["Success"]:
             return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
+
+
+class AssessmentAssignCustomKitApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(request_body=openapi.Schema(type=openapi.TYPE_OBJECT), responses={201: ""})
+    def post(self, request, assessment_id):
+        assessments_details = assessment_services.load_assessment(request, assessment_id)
+        if assessments_details["status_code"] != 200:
+            return Response(assessments_details["body"], assessments_details["status_code"])
+        custom_kit = custom_kit_services.create_custom_kit(request, assessments_details["body"]["kit"]["id"])
+        if custom_kit["status_code"] != 201:
+            return Response(custom_kit["body"], custom_kit["status_code"])
+        result = assessment_services.assign_custom_kit(request, assessment_id, custom_kit["body"]["kitCustomId"])
+        if result["Success"]:
+            return Response(data=custom_kit["body"], status=201)
         return Response(data=result["body"], status=result["status_code"])

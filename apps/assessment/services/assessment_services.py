@@ -102,3 +102,15 @@ def assessment_migrate_kit_version(request, assessment_id):
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def assign_custom_kit(request, assessment_id, custom_kit_id):
+    data = request.data
+    data["kitCustomId"] = custom_kit_id
+    response = requests.put(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/assign-kit-custom',
+        json=data,
+        headers={'Authorization': request.headers['Authorization']})
+    if response.status_code == 200:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
