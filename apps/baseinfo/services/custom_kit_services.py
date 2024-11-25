@@ -10,3 +10,10 @@ def create_custom_kit(request, kit_id):
         json=data,
         headers={'Authorization': request.headers['Authorization']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
+def get_custom_kit(request, custom_kit_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/kit-customs/{custom_kit_id}',
+        headers={'Authorization': request.headers['Authorization']})
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
