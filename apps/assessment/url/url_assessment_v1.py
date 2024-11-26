@@ -2,7 +2,7 @@ from django.urls import path
 
 from assessment.views import (projectviews, reportviews, confidence_levels_views, assessment_views,
                               advice_views, assessment_user_roles_views, maturity_level_views, questionnaire_views,
-                              attributes_views, question_views, assessment_insight_views, assessment_analysis_views)
+                              question_views, assessment_insight_views, assessment_analysis_views)
 
 urlpatterns = [
     path("", projectviews.AssessmentProjectApi.as_view()),
