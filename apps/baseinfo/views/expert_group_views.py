@@ -121,3 +121,13 @@ class ExpertGroupPictureApi(APIView):
     def delete(self, request, expert_group_id):
         result = expert_group_services.delete_expert_group_picture(request, expert_group_id)
         return Response(data=result["body"], status=result["status_code"])
+
+
+class LeaveExpertGroupAPi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, expert_group_id):
+        result = expert_group_services.expert_group_leave(request, expert_group_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
