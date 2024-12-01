@@ -21,6 +21,7 @@ class AdviceNarrationView(APIView):
     def get(self, request, assessment_id):
         result = advice_services.get_advice_narration(request, assessment_id)
         return Response(result["body"], result["status_code"])
+
     @swagger_auto_schema(
         operation_description="create advice narration for assessor.",
         request_body=openapi.Schema(
@@ -28,7 +29,7 @@ class AdviceNarrationView(APIView):
             required=['assessment_id']
         ),
         responses={
-            201:""}
+            201: ""}
     )
     def post(self, request, assessment_id):
         result = advice_services.create_advice_narration(request, assessment_id)
@@ -39,6 +40,7 @@ class AdviceNarrationView(APIView):
 
 class AdviceNarrationAiView(APIView):
     permission_classes = [IsAuthenticated]
+
     @swagger_auto_schema(
         operation_description="Get advice narration for a specific assessment.",
         request_body=openapi.Schema(
@@ -65,4 +67,14 @@ class AdviceNarrationAiView(APIView):
     )
     def post(self, request, assessment_id):
         result = advice_services.create_advice_narration_ai(request, assessment_id)
+        return Response(result["body"], result["status_code"])
+
+
+class AdviceItemsApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT), responses={201: ""})
+    def post(self, request, assessment_id):
+        result = advice_services.create_advice_items(request, assessment_id)
         return Response(result["body"], result["status_code"])
