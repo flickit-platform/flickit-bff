@@ -137,3 +137,12 @@ def delete_expert_group_picture(request, expert_group_id):
     if response.status_code == 204:
         return {"Success": True, "body": "", "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def expert_group_leave(request, expert_group_id):
+    response = requests.delete(
+        ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}/leave',
+        headers={'Authorization': request.headers['Authorization']})
+    if response.status_code == 204:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
