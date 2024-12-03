@@ -34,8 +34,8 @@ def create_advice_narration(request, assessment_id):
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
 
-def create_advice_items(request, assessment_id):
-    response = requests.post(ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/advice-items',
+def create_advice_items(request):
+    response = requests.post(ASSESSMENT_URL + f'assessment-core/api/advice-items',
                              json=request.data,
                              headers={'Authorization': request.headers['Authorization']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
