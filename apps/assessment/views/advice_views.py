@@ -75,6 +75,6 @@ class AdviceItemsApi(APIView):
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={201: ""})
-    def post(self, request, assessment_id):
-        result = advice_services.create_advice_items(request, assessment_id)
+    def post(self, request):
+        result = advice_services.create_advice_items(request)
         return Response(result["body"], result["status_code"])
