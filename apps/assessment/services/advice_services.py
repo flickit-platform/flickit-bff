@@ -46,3 +46,12 @@ def get_advice_items(request):
                             params=request.query_params,
                             headers={'Authorization': request.headers['Authorization']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
+def update_advice_item(request, advice_item_id):
+    response = requests.put(ASSESSMENT_URL + f'assessment-core/api/advice-items/{advice_item_id}',
+                            json=request.data,
+                            headers={'Authorization': request.headers['Authorization']})
+    if response.status_code == 200:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
