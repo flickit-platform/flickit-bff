@@ -55,3 +55,11 @@ def update_advice_item(request, advice_item_id):
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def delete_advice_item(request, advice_item_id):
+    response = requests.delete(ASSESSMENT_URL + f'assessment-core/api/advice-items/{advice_item_id}',
+                               headers={'Authorization': request.headers['Authorization']})
+    if response.status_code == 204:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
