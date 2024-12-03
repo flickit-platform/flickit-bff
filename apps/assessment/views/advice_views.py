@@ -90,3 +90,15 @@ class AdviceItemsApi(APIView):
     def get(self, request):
         result = advice_services.get_advice_items(request)
         return Response(result["body"], result["status_code"])
+
+
+class AdviceItemApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT), responses={200: ""})
+    def put(self, request, advice_item_id):
+        result = advice_services.update_advice_item(request, advice_item_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
