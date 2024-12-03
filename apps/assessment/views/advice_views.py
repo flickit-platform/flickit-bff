@@ -102,3 +102,9 @@ class AdviceItemApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+    def delete(self, request, advice_item_id):
+        result = advice_services.delete_advice_item(request, advice_item_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
