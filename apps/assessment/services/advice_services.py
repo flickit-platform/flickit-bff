@@ -35,7 +35,14 @@ def create_advice_narration(request, assessment_id):
 
 
 def create_advice_items(request):
-    response = requests.post(ASSESSMENT_URL + f'assessment-core/api/advice-items',
+    response = requests.post(ASSESSMENT_URL + 'assessment-core/api/advice-items',
                              json=request.data,
                              headers={'Authorization': request.headers['Authorization']})
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
+def get_advice_items(request):
+    response = requests.get(ASSESSMENT_URL + 'assessment-core/api/advice-items',
+                            params=request.query_params,
+                            headers={'Authorization': request.headers['Authorization']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}

@@ -78,3 +78,15 @@ class AdviceItemsApi(APIView):
     def post(self, request):
         result = advice_services.create_advice_items(request)
         return Response(result["body"], result["status_code"])
+
+    assessment_id = openapi.Parameter('assessmentId', openapi.IN_QUERY, description="assessmentId param",
+                                      type=openapi.TYPE_STRING, required=True)
+    size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
+                                   type=openapi.TYPE_INTEGER)
+    page_param = openapi.Parameter('page', openapi.IN_QUERY, description="page param",
+                                   type=openapi.TYPE_INTEGER)
+
+    @swagger_auto_schema(manual_parameters=[size_param, page_param, assessment_id])
+    def get(self, request):
+        result = advice_services.get_advice_items(request)
+        return Response(result["body"], result["status_code"])
