@@ -19,6 +19,7 @@ urlpatterns = [
     path('api/v1/kit-customs/', include('baseinfo.url.url_kit_customs_v1')),
     path('api/v1/assessments/', include('assessment.url.url_assessment_v1')),
     path('api/v1/advice-items/', include('assessment.url.url_advice_items_v1')),
+    path('api/v1/advice-item-cost-levels/', include('assessment.url.url_advice_item_cost_levels')),
     path('api/v2/assessments/', include('assessment.url.url_assessment_v2')),
     path('api/v1/assessment-invites/', include('assessment.url.url_assessment_invites_v1')),
     path('api/v1/assessments-compare/', include('assessment.url.url_assessments_compare_v1')),
