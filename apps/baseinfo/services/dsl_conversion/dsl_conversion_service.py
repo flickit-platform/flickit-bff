@@ -104,9 +104,9 @@ class DSLConverterService:
         dsl: List[str] = []
         try:
             for _, row in df.iterrows():
-                name = row[constants.SHEET_QUESTIONARIES_NAME]
-                title = row[constants.SHEET_QUESTIONARIES_TITLE]
-                description = row[constants.SHEET_QUESTIONARIES_DESCRIPTION]
+                name = row[constants.SHEET_QUESTIONNAIRES_NAME]
+                title = row[constants.SHEET_QUESTIONNAIRES_TITLE]
+                description = row[constants.SHEET_QUESTIONNAIRES_DESCRIPTION]
                 dsl.append(
                     f'questionnaire {name} {{\n'
                     f'    title: "{title}"\n'
@@ -119,18 +119,70 @@ class DSLConverterService:
             raise RuntimeError(f"An error occurred while processing the sheet: {e}")
         return '\n\n'.join(dsl)
 
-    def convert_questions(self, questions_df: pd.DataFrame, answer_options_df: pd.DataFrame) -> Dict[str, List[str]]:
+    def generate_answer_ranges_dsl(self, answer_options_df: pd.DataFrame) -> str:
+        """
+        Generates DSL for answer ranges from the answer options DataFrame.
+        """
+        answer_ranges_dsl = []
+        current_range_name = None
+        range_options = []
+        range_values = []
+
+        for _, row in answer_options_df.iterrows():
+            range_name = row[constants.SHEET_OPTIONS_RANGE_NAME]
+            option_title = row[constants.SHEET_OPTIONS_TITLE]
+            option_value = row[constants.SHEET_OPTIONS_VALUE]
+
+            # If a new range starts, finalize the previous one
+            if pd.notna(range_name):
+                if current_range_name:
+                    # Finalize current range DSL
+                    dsl = (
+                        f"answerRange {current_range_name} {{\n"
+                        f'    title: "{current_range_name}"\n'
+                        f'    options: {", ".join(range_options)}'
+                    )
+                    if range_values:
+                        dsl += f" with values [{', '.join(map(str, range_values))}]"
+                    dsl += "\n}"
+                    answer_ranges_dsl.append(dsl)
+
+                # Start a new range
+                current_range_name = range_name
+                range_options = []
+                range_values = []
+
+            # Add options and values for the current range
+            range_options.append(f'"{option_title}"')
+            range_values.append(option_value)
+
+        # Finalize the last range
+        if current_range_name:
+            dsl = (
+                f"answerRange {current_range_name} {{\n"
+                f'    title: "{current_range_name}"\n'
+                f'    options: {", ".join(range_options)}'
+            )
+            if range_values:
+                dsl += f" with values [{', '.join(map(str, range_values))}]"
+            dsl += "\n}"
+
+            answer_ranges_dsl.append(dsl)
+
+        return '\n\n'.join(answer_ranges_dsl)
+
+    def convert_questions(self, questions_df: pd.DataFrame) -> Dict[str, List[str]]:
         """Converts questions to DSL grouped by questionnaire."""
         questions_by_questionnaire: Dict[str, List[str]] = {}
-        answer_options_df = answer_options_df.ffill()
 
         for _, row in questions_df.iterrows():
             question_code = row[constants.SHEET_QUESTIONS_CODE]
-            questionnaire_name = row[constants.SHEET_QUESTIONS_QUESTIONARIES]
+            questionnaire_name = row[constants.SHEET_QUESTIONS_QUESTIONNAIRES]
+
             # Check for title presence before proceeding
             if pd.notna(row[constants.SHEET_QUESTIONS_TITLE]):
                 title = row[constants.SHEET_QUESTIONS_TITLE].replace('"', '\\"')
-                options_range_name = row[constants.SHEET_QUESTIONS_OPTIONS]
+                answer_range_name = row[constants.SHEET_QUESTIONS_OPTIONS]
                 description = row[constants.SHEET_QUESTIONS_DESCRIPTION].replace('"', '\\"') if pd.notna(
                     row[constants.SHEET_QUESTIONS_DESCRIPTION]) else constants.DEFAULT_DESCRIPTION
                 may_not_be_applicable = row[constants.SHEET_QUESTIONS_MAY_NOT_BE_APPLICABLE] == 1 if pd.notna(
@@ -138,25 +190,16 @@ class DSLConverterService:
                 advisable = row[constants.SHEET_QUESTIONS_ADVISABLE] == 0 if pd.notna(
                     row[constants.SHEET_QUESTIONS_ADVISABLE]) else True
 
-                # Filter options based on the option range name
-                options_df = answer_options_df[
-                    answer_options_df[constants.SHEET_OPTIONS_RANGE_NAME] == options_range_name].dropna()
-                options = options_df[constants.SHEET_OPTIONS_TITLE].tolist()
-                option_values = options_df[constants.SHEET_OPTIONS_VALUE].tolist()
-
-                # Structure the options string
-                options_str = ', '.join([f'"{opt}"' for opt in options])
-
                 # Build the DSL for the question
                 question_dsl = (
                     f'question {question_code} {{\n'
                     f'    questionnaire: {questionnaire_name}\n'
                     f'    hint: "{description}"\n'
                     f'    title: "{title}"\n'
-                    f'    options: {options_str}\n'
+                    f'    answerRange: {answer_range_name}\n'
                 )
 
-                # Add advisable directly after options if it's false
+                # Add advisable if it's false
                 if advisable:
                     question_dsl += f'        advisable: false\n'
 
@@ -165,7 +208,7 @@ class DSLConverterService:
                 for column in questions_df.columns[constants.SHEET_QUESTIONS_START_AFFECTS_COLUMN_INDEX:]:
                     if pd.notna(row[column]):
                         affects_str_list.append(
-                            f'affects {column} on level {row[constants.SHEET_QUESTIONS_MATURITY]} with values [{", ".join(map(str, option_values))}] with weight {int(row[column])}'
+                            f'affects {column} on level {row[constants.SHEET_QUESTIONS_MATURITY]} with weight {int(row[column])}'
                         )
                 affects_str = '\n    '.join(affects_str_list)
                 question_dsl += f'    {affects_str}\n'
@@ -192,12 +235,13 @@ class DSLConverterService:
     def convert_excel_to_dsl(self) -> bytes:
         """Converts an Excel file to DSL format and returns a zipped file as bytes."""
         try:
+            # Load all sheets from Excel
             maturity_levels_df = pd.read_excel(self.xls, constants.SHEET_MATURITY_LEVELS,
                                                header=constants.HEADER_MATURITY_LEVELS)
             quality_attributes_df = pd.read_excel(self.xls, constants.SHEET_QUALITY_ATTRIBUTES,
                                                   header=constants.HEADER_QUALITY_ATTRIBUTES)
-            questionnaires_df = pd.read_excel(self.xls, constants.SHEET_QUESTIONARIES,
-                                              header=constants.HEADER_QUESTIONARIES)
+            questionnaires_df = pd.read_excel(self.xls, constants.SHEET_QUESTIONNAIRES,
+                                              header=constants.HEADER_QUESTIONNAIRES)
             questions_df = pd.read_excel(self.xls, constants.SHEET_QUESTIONS, header=constants.HEADER_QUESTIONS)
             answer_options_df = pd.read_excel(self.xls, constants.SHEET_OPTIONS, header=constants.HEADER_OPTIONS)
 
@@ -205,28 +249,34 @@ class DSLConverterService:
             raise RuntimeError(f"An error occurred while reading the Excel sheets: {str(e)}")
 
         try:
+            # Generate DSL for each component
             maturity_levels_dsl = self.convert_maturity_levels(maturity_levels_df)
             quality_attributes_dsl = self.convert_quality_attributes(quality_attributes_df)
             questionnaires_dsl = self.convert_questionnaires(questionnaires_df)
-            questions_by_questionnaire = self.convert_questions(questions_df, answer_options_df)
+            answer_ranges_dsl = self.generate_answer_ranges_dsl(answer_options_df)
+            questions_by_questionnaire = self.convert_questions(questions_df)
             subject_dsl = self.generate_subject_dsl(quality_attributes_df)
         except Exception as e:
             raise RuntimeError(f"An error occurred during the conversion process: {str(e)}")
 
+        # Create a zip file in memory
         zip_buffer = BytesIO()
         with zipfile.ZipFile(zip_buffer, 'w') as zipf:
-            # Create the folder structure in the zip file
+            # Base folder name in the zip file
             base_folder = constants.DSL_FOLDER_NAME
 
+            # Add each DSL component to the zip file
             zipf.writestr(f'{base_folder}/{constants.OUTPUT_FILE_LEVELS}', maturity_levels_dsl)
             zipf.writestr(f'{base_folder}/{constants.OUTPUT_FILE_QUALITY_ATTRIBUTES}', quality_attributes_dsl)
             zipf.writestr(f'{base_folder}/{constants.OUTPUT_FILE_QUESTIONNAIRES}', questionnaires_dsl)
             zipf.writestr(f'{base_folder}/{constants.OUTPUT_FILE_SUBJECTS}', subject_dsl)
+            zipf.writestr(f'{base_folder}/{constants.OUTPUT_FILE_ANSWER_RANGES}', answer_ranges_dsl)
 
             for questionnaire_name, questions_dsl in questions_by_questionnaire.items():
                 zipf.writestr(
                     f'{base_folder}/{self.convert_questionnaire_name(questionnaire_name)}{constants.DSL_FILE_EXT}',
-                    '\n\n'.join(questions_dsl))
+                    '\n\n'.join(questions_dsl)
+                )
 
         zip_buffer.seek(0)  # Reset the buffer's position to the beginning
         return zip_buffer.getvalue()
