@@ -55,3 +55,16 @@ class AssessmentAttributesReportAiApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+
+class AttributeScoreStatsAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    maturity_level_id_param = openapi.Parameter('maturityLevelId', openapi.IN_QUERY,
+                                                description="maturity level id param",
+                                                type=openapi.TYPE_INTEGER, required=True)
+
+    @swagger_auto_schema(manual_parameters=[maturity_level_id_param])
+    def get(self, request, assessment_id, attribute_id):
+        result = assessment_core.get_attribute_stats_report(request, assessment_id, attribute_id)
+        return Response(result["body"], result["status_code"])

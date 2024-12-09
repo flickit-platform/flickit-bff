@@ -14,6 +14,8 @@ urlpatterns = [
     path("<uuid:assessment_id>/subjects/<int:subject_id>/progress/", reportviews.SubjectProgressApi.as_view()),
     path("<uuid:assessment_id>/report/attributes/<int:attribute_id>/",
          reportviews.AssessmentAttributesReportApi.as_view()),
+    path("<uuid:assessment_id>/report/attributes/<int:attribute_id>/stats/",
+         reportviews.AttributeScoreStatsAPIView.as_view()),
     path("<uuid:assessment_id>/", projectviews.AssessmentApi.as_view()),
     path("<uuid:assessment_id>/users/",
          assessment_user_roles_views.UsersAccessToAssessmentApi.as_view()),

@@ -109,3 +109,10 @@ def get_assessment_attribute_report(request, assessment_id, attribute_id):
                             f'assessment-core/api/assessments/{assessment_id}/report/attributes/{attribute_id}',
                             params=request.query_params, headers={'Authorization': request.headers['Authorization']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
+def get_attribute_stats_report(request, assessment_id, attribute_id):
+    response = requests.get(ASSESSMENT_URL +
+                            f'assessment-core/api/assessments/{assessment_id}/report/attributes/{attribute_id}/stats',
+                            params=request.query_params, headers={'Authorization': request.headers['Authorization']})
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
