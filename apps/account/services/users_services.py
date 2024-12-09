@@ -36,3 +36,12 @@ def get_user_id_by_email(email):
     elif result["body"]["code"] == "NOT_FOUND":
         return {"Success": False, "body": {"id": ""}, "status_code": status.HTTP_200_OK}
     return result
+
+
+def update_user_profile_picture(request):
+    file = request.data.get('pictureFile')
+    response = requests.put(
+        ASSESSMENT_URL + 'assessment-core/api/user-profile/picture',
+        files={'pictureFile': (file.name, file, file.content_type)},
+        headers={'Authorization': request.headers['Authorization']})
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}

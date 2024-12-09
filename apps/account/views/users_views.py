@@ -3,6 +3,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from account.services import users_services
 from account.services.users_services import get_user_id_by_email
@@ -37,4 +38,17 @@ class LoadUserByEmailApi(APIView):
 
     def get(self, request, email):
         result = get_user_id_by_email(email)
+        return Response(data=result["body"], status=result["status_code"])
+
+
+class UserProfilePictureApi(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    picture_param = openapi.Parameter('pictureFile', openapi.IN_FORM, description="picture file",
+                                      type=openapi.TYPE_FILE, required=True)
+
+    @swagger_auto_schema(manual_parameters=[picture_param])
+    def put(self, request):
+        result = users_services.update_user_profile_picture(request)
         return Response(data=result["body"], status=result["status_code"])
