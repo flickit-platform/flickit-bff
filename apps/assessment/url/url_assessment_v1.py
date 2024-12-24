@@ -1,6 +1,6 @@
 from django.urls import path
 
-from assessment.views import (projectviews, reportviews, confidence_levels_views, assessment_views,
+from assessment.views import (projectviews, reportviews, confidence_levels_views, assessment_views, dashboard_views,
                               advice_views, assessment_user_roles_views, maturity_level_views, questionnaire_views,
                               question_views, assessment_insight_views, assessment_analysis_views)
 
@@ -37,4 +37,5 @@ urlpatterns = [
     path("<uuid:assessment_id>/analysis-input/", assessment_analysis_views.UploadAnalysisFileApi.as_view()),
     path("<uuid:assessment_id>/migrate-kit-version/", assessment_views.AssessmentMigrateKitVersionApi.as_view()),
     path("<uuid:assessment_id>/assign-kit-custom/", assessment_views.AssessmentAssignCustomKitApi.as_view()),
+    path("<uuid:assessment_id>/dashboard/", dashboard_views.AssessmentDashboardApi.as_view()),
 ]
