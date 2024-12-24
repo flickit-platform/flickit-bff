@@ -81,3 +81,13 @@ class EvidenceAttachmentApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+
+class EvidenceResolveCommentApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, evidence_id):
+        result = evidence_services.evidence_resolve_comment(request, evidence_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])

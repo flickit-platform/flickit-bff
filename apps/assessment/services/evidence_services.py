@@ -69,3 +69,12 @@ def evidence_get_by_id(request, evidence_id):
         ASSESSMENT_URL + f'assessment-core/api/evidences/{evidence_id}',
         headers={'Authorization': request.headers['Authorization']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
+def evidence_resolve_comment(request, evidence_id):
+    response = requests.put(
+        ASSESSMENT_URL + f'assessment-core/api/evidences/{evidence_id}/resolve',
+        headers={'Authorization': request.headers['Authorization']})
+    if response.status_code == 200:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
