@@ -1,0 +1,15 @@
+question {{ question_code }} {
+    questionnaire: {{ questionnaire_name }}
+    hint: "{{ hint }}"
+    title: "{{ title }}"
+    answerRange: {{ answer_range }}
+    {% for impact in impacts %}
+    affects {{ impact.attribute }} on level {{ impact.level }} with weight {{ impact.weight }}
+    {% endfor %}
+    {% if may_not_be_applicable %}
+    mayNotBeApplicable: true
+    {% endif %}
+    {% if advisable == false %}
+    advisable: false
+    {% endif %}
+}

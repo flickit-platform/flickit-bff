@@ -1,0 +1,4 @@
+subject {{ subject_name }} {
+    title: "{{ title }}"
+    description: "{{ description }}"
+}

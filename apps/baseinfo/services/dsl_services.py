@@ -18,3 +18,10 @@ def download_dsl_assessment(assessment_kit_id, request):
         ASSESSMENT_URL + f'assessment-core/api/assessment-kits/{assessment_kit_id}/dsl-download-link',
         headers={'Authorization': request.headers['Authorization']})
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def get_dsl_json(request, assessment_kit_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/assessment-kits/{assessment_kit_id}/dsl',
+        headers={'Authorization': request.headers['Authorization']})
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}

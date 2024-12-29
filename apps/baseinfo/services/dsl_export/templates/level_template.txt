@@ -1,0 +1,8 @@
+level {{ level_name }} {
+    title: "{{ title }}"
+    description: "{{ description }}"
+    value: {{ value }}
+    {% if competence %}
+    competence: [{% for key, val in competence.items() %}{{ key }}:{{ val }}%{% if not loop.last %}, {% endif %}{% endfor %}]
+    {% endif %}
+}
