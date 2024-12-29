@@ -1,0 +1,7 @@
+attribute {{ attribute_name }} {
+    title: "{{ title }}"
+    description: "{{ description }}"
+    index: {{ index }}
+    subject: {{ subject_name }}
+    weight: {{ weight }}
+}

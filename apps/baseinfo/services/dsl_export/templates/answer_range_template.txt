@@ -1,0 +1,7 @@
+answerRange {{ range_name }} {
+    title: "{{ title }}"
+    options: {% for option in options %}"{{ option.caption }}"{% if not loop.last %}, {% endif %}{% endfor %}
+    {% if values and values | length > 0 %}
+    with values [{{ values | join(", ") }}]
+    {% endif %}
+}
