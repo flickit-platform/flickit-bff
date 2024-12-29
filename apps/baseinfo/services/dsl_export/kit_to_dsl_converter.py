@@ -6,14 +6,15 @@ from jinja2 import Environment, FileSystemLoader
 from baseinfo.services.dsl_export import constants
 from baseinfo.services.dsl_export.models.kit_models import KitModel
 
+
 class KitToDSLConverterService:
     def __init__(self):
         # Configure the Jinja2 Environment
         self.env = Environment(
             loader=FileSystemLoader('baseinfo/services/dsl_export/templates'),
             trim_blocks=True,
-            lstrip_blocks=True
-        )
+            lstrip_blocks=True,
+            autoescape=True)
 
     def escape_quotes(self, text: Optional[str], default: str = "") -> str:
         """
@@ -120,7 +121,8 @@ class KitToDSLConverterService:
                 questions_dsl.append(rendered_question)
 
             # Save DSL questions as a separate file
-            questionnaire_file_name = self.convert_questionnaire_name(questionnaire.questionnaire_name) + constants.DSL_FILE_EXT
+            questionnaire_file_name = self.convert_questionnaire_name(
+                questionnaire.questionnaire_name) + constants.DSL_FILE_EXT
             questions_dsl_files[questionnaire_file_name] = '\n\n'.join(questions_dsl)
 
         dsl_files[constants.OUTPUT_FILE_QUESTIONNAIRES] = '\n\n'.join(questionnaires_dsl)
