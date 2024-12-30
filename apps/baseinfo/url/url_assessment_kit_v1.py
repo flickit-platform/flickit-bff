@@ -18,7 +18,7 @@ urlpatterns = [
     path("<str:assessment_kit_id>/min-info/", user_access_views.LoadAssessmentKitMinimalInfoApi.as_view()),
     path("<str:assessment_kit_id>/dsl-download-link/", assessmentkitviews.LoadAssessmentKitFileApi.as_view()),
     path("<str:assessment_kit_id>/clone/", assessment_kit_views.CloneAssessmentKitApi.as_view()),
-    path("<str:assessment_kit_id>/dsl/", dsl_views.KitToDSLExportApi.as_view()),
+    path("<str:assessment_kit_id>/export-dsl/", dsl_views.KitToDSLExportApi.as_view()),
     path("<str:assessment_kit_id>/custom-subjects/",
          assessment_kit_views.CustomSubjectApi.as_view()),
 
