@@ -85,12 +85,14 @@ class DSLConverterService:
                 attribute_name = row[constants.SHEET_ATTRIBUTES_ATTRIBUTE_NAME]
                 attribute_title = row[constants.SHEET_ATTRIBUTES_ATTRIBUTE_TITLE]
                 attribute_description = row[constants.SHEET_ATTRIBUTES_ATTRIBUTE_DESCRIPTION]
+                attribute_weight = row[constants.SHEET_ATTRIBUTES_ATTRIBUTE_WEIGHT]
                 if pd.notna(attribute_name):
                     dsl.append(
                         f'attribute {attribute_name} {{\n'
                         f'    title: "{attribute_title}"\n'
                         f'    description: "{attribute_description}"\n'
                         f'    subject: {current_subject}\n'
+                        f'    weight: {attribute_weight}\n'
                         f'}}'
                     )
         except KeyError as e:
