@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
-from assessment.services import assessment_services
+from assessment.services import assessment_services, assessment_permission_services
 from baseinfo.services import custom_kit_services
 
 
@@ -106,4 +106,12 @@ class AssessmentAssignCustomKitApi(APIView):
         result = assessment_services.assign_custom_kit(request, assessment_id, custom_kit["body"]["kitCustomId"])
         if result["Success"]:
             return Response(data=custom_kit["body"], status=201)
+        return Response(data=result["body"], status=result["status_code"])
+
+
+class AssessmentPermissionsListApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, assessment_id):
+        result = assessment_permission_services.get_assessment_permissions_list(request, assessment_id)
         return Response(data=result["body"], status=result["status_code"])
