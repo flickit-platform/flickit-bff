@@ -63,7 +63,11 @@ def get_assessment_insights(request, assessment_id):
     if not default_insight and not assessor_insight:
         init_result = init_assessment_insights(request, assessment_id)
         if not init_result["Success"]:
-            return init_result
+            error_code = init_result["body"].get("code")
+            if error_code == "INVALID_INPUT":
+                return _load_assessment_insights(request, assessment_id)
+            else:
+                return init_result
 
         return _load_assessment_insights(request, assessment_id)
 
