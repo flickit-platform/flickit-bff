@@ -111,6 +111,7 @@ def init_subject_insights(request, assessment_id, subject_id):
         "status_code": response.status_code
     }
 
+
 def get_assessment_subject_insights(request, assessment_id, subject_id):
     load_result = _load_subject_insights(request, assessment_id, subject_id)
 
@@ -158,6 +159,16 @@ def approve_attribute_insight(request, assessment_id, attribute_id):
 def approve_subject_insight(request, assessment_id, subject_id):
     response = requests.put(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/subjects/{subject_id}/approve-insight',
+        json=request.data,
+        headers={'Authorization': request.headers['Authorization']})
+    if response.status_code == 200:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def approve_assessment_insight(request, assessment_id):
+    response = requests.put(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/approve-insight',
         json=request.data,
         headers={'Authorization': request.headers['Authorization']})
     if response.status_code == 200:
