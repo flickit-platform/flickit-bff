@@ -34,6 +34,8 @@ urlpatterns = [
     path("<uuid:assessment_id>/insight/", assessment_insight_views.AssessmentInsightApi.as_view()),
     path("<uuid:assessment_id>/insight/subjects/<int:subject_id>/",
          assessment_insight_views.AssessmentSubjectInsightApi.as_view()),
+    path("<uuid:assessment_id>/subjects/<int:subject_id>/approve-insight/",
+         assessment_insight_views.ApproveSubjectInsightApi.as_view()),
     path("<uuid:assessment_id>/attributes/<int:attribute_id>/approve-insight/",
          assessment_insight_views.ApproveAttributeInsightApi.as_view()),
     path("<uuid:assessment_id>/analysis-input/", assessment_analysis_views.UploadAnalysisFileApi.as_view()),
