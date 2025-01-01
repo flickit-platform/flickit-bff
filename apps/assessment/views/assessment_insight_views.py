@@ -36,3 +36,13 @@ class AssessmentSubjectInsightApi(APIView):
     def get(self, request, assessment_id, subject_id):
         result = assessment_insight_services.get_assessment_subject_insights(request, assessment_id, subject_id)
         return Response(data=result["body"], status=result["status_code"])
+
+
+class ApproveAttributeInsightApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, assessment_id, attribute_id):
+        result = assessment_insight_services.approve_attribute_insight(request, assessment_id, attribute_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
