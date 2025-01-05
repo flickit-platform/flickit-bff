@@ -2,7 +2,7 @@ import re
 import zipfile
 from io import BytesIO
 from typing import Dict, List, Optional
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 from baseinfo.services.dsl_export import constants
 from baseinfo.services.dsl_export.models.kit_models import KitModel
 
@@ -14,7 +14,7 @@ class KitToDSLConverterService:
             loader=FileSystemLoader('baseinfo/services/dsl_export/templates'),
             trim_blocks=True,
             lstrip_blocks=True,
-            autoescape=True)
+            autoescape=select_autoescape(['html', 'xml']))
 
     def escape_quotes(self, text: Optional[str], default: str = "") -> str:
         """
