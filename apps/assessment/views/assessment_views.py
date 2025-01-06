@@ -115,3 +115,14 @@ class AssessmentPermissionsListApi(APIView):
     def get(self, request, assessment_id):
         result = assessment_permission_services.get_assessment_permissions_list(request, assessment_id)
         return Response(data=result["body"], status=result["status_code"])
+
+
+class GrantReportAccessApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(request_body=openapi.Schema(type=openapi.TYPE_OBJECT), responses={201: ""})
+    def post(self, request, assessment_id):
+        result = assessment_services.access_assessment_report_grant(request, assessment_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])

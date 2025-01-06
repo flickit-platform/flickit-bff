@@ -114,3 +114,13 @@ def assign_custom_kit(request, assessment_id, custom_kit_id):
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def access_assessment_report_grant(request, assessment_id):
+    response = requests.post(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/grant-report-access',
+        json=request.data,
+        headers={'Authorization': request.headers['Authorization']})
+    if response.status_code == 201:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
