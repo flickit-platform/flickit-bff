@@ -76,7 +76,7 @@ def get_assessment_insights(request, assessment_id):
 
 def _load_subject_insights(request, assessment_id, subject_id):
     response = requests.get(
-        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/insights/subjects/{subject_id}',
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/subjects/{subject_id}/insight',
         headers={'Authorization': request.headers.get('Authorization')}
     )
 
