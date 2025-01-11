@@ -126,3 +126,11 @@ class GrantReportAccessApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+
+class UsersWithReportAccessApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, assessment_id):
+        result = assessment_services.get_report_users_access(request, assessment_id)
+        return Response(data=result["body"], status=result["status_code"])
