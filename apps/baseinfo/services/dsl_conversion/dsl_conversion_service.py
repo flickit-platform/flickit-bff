@@ -29,10 +29,12 @@ class DSLConverterService:
             for _, row in subjects.iterrows():
                 subject_name = row[constants.SHEET_QUALITY_ATTRIBUTES_SUBJECT_NAME]
                 subject_title = row[constants.SHEET_QUALITY_ATTRIBUTES_SUBJECT_TITLE]
+                subject_weight = row[constants.SHEET_SUBJECT_WEIGHT]
                 subject_description = row[constants.SHEET_QUALITY_ATTRIBUTES_SUBJECT_DESCRIPTION]
                 dsl.append(
                     f'subject {subject_name} {{\n'
                     f'    title: "{subject_title}"\n'
+                    f'    weight: {int(subject_weight)}\n'
                     f'    description: "{subject_description}"\n'
                     f'}}'
                 )
