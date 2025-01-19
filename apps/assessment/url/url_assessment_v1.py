@@ -42,6 +42,8 @@ urlpatterns = [
          assessment_insight_views.ApproveAttributeInsightApi.as_view()),
     path("<uuid:assessment_id>/attributes/<int:attribute_id>/insight/",
          assessment_insight_views.AssessmentAttributeInsightApi.as_view()),
+    path("<uuid:assessment_id>/attributes/<int:attribute_id>/ai-insight/",
+         assessment_insight_views.AssessmentAttributeAiInsightApi.as_view()),
     path("<uuid:assessment_id>/analysis-input/", assessment_analysis_views.UploadAnalysisFileApi.as_view()),
     path("<uuid:assessment_id>/migrate-kit-version/", assessment_views.AssessmentMigrateKitVersionApi.as_view()),
     path("<uuid:assessment_id>/assign-kit-custom/", assessment_views.AssessmentAssignCustomKitApi.as_view()),
