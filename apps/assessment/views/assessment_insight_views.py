@@ -70,3 +70,15 @@ class ApproveAssessmentInsightApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+
+class AssessmentAttributeInsightApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT), responses={200: ""})
+    def post(self, request, assessment_id, attribute_id):
+        result = assessment_insight_services.create_attributes_insight(request, assessment_id, attribute_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
