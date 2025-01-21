@@ -149,3 +149,10 @@ class ReportMetadataAPI(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+class QuestionIssuesApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, assessment_id, question_id):
+        result = assessment_services.get_question_issues(request, assessment_id, question_id)
+        return Response(data=result["body"], status=result["status_code"])
