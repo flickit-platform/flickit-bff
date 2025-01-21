@@ -142,3 +142,9 @@ class ReportMetadataAPI(APIView):
     def get(self, request, assessment_id):
         result = assessment_services.get_report_metadata(request, assessment_id)
         return Response(data=result["body"], status=result["status_code"])
+
+    def patch(self, request, assessment_id):
+        result = assessment_services.update_report_metadata(request, assessment_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
