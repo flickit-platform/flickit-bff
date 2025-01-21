@@ -143,6 +143,6 @@ def update_report_metadata(request, assessment_id):
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/report-metadata',
         json=request.data,
         headers={'Authorization': request.headers['Authorization']})
-        if response.status_code == 201:
+    if response.status_code == 201:
             return {"Success": True, "body": None, "status_code": response.status_code}    
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
