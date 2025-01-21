@@ -53,4 +53,5 @@ urlpatterns = [
     path("<uuid:assessment_id>/grant-report-access/", assessment_views.GrantReportAccessApi.as_view()),
     path("<uuid:assessment_id>/users-with-report-access/", assessment_views.UsersWithReportAccessApi.as_view()),
     path("<uuid:assessment_id>/report-metadata/", assessment_views.ReportMetadataAPI.as_view()),
+    path("<uuid:assessment_id>/questions/<int:question_id>/issues/", assessment_views.QuestionIssuesApi.as_view()),
 ]
