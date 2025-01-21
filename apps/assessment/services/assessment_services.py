@@ -131,3 +131,9 @@ def get_report_users_access(request, assessment_id):
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/users-with-report-access',
         headers={'Authorization': request.headers['Authorization']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+def get_report_metadata(request, assessment_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/report-metadata',
+        headers={'Authorization': request.headers['Authorization']})
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
