@@ -143,6 +143,7 @@ class ReportMetadataAPI(APIView):
         result = assessment_services.get_report_metadata(request, assessment_id)
         return Response(data=result["body"], status=result["status_code"])
 
+    @swagger_auto_schema(request_body = openapi.Schema(type = openapi.TYPE_OBJECT), response = 201)
     def patch(self, request, assessment_id):
         result = assessment_services.update_report_metadata(request, assessment_id)
         if result["Success"]:

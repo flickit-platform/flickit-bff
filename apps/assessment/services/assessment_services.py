@@ -139,7 +139,8 @@ def get_report_metadata(request, assessment_id):
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 def update_report_metadata(request, assessment_id):
-    response = requests.patch(
+    response = requests.path(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/report-metadata',
+        json=request.data,
         headers={'Authorization': request.headers['Authorization']})
-    return {"Success": True, "body": response.json(), "status_code": response.status_code}    
+    return {"Success": True, "body": none, "status_code": response.status_code}
