@@ -52,4 +52,5 @@ urlpatterns = [
     path("<uuid:assessment_id>/approve-insight/", assessment_insight_views.ApproveAssessmentInsightApi.as_view()),
     path("<uuid:assessment_id>/grant-report-access/", assessment_views.GrantReportAccessApi.as_view()),
     path("<uuid:assessment_id>/users-with-report-access/", assessment_views.UsersWithReportAccessApi.as_view()),
+    path("<uuid:assessment_id>/report-metadata/", assessment_views.ReportMetadataAPI.as_view()),
 ]

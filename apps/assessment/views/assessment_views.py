@@ -134,3 +134,11 @@ class UsersWithReportAccessApi(APIView):
     def get(self, request, assessment_id):
         result = assessment_services.get_report_users_access(request, assessment_id)
         return Response(data=result["body"], status=result["status_code"])
+
+
+class ReportMetadataAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, assessment_id):
+        result = assessment_services.get_report_metadata(request, assessment_id)
+        return Response(data=result["body"], status=result["status_code"])
