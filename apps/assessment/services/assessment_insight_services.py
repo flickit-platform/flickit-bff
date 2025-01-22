@@ -192,3 +192,22 @@ def create_attributes_ai_insight(request, assessment_id, attribute_id):
         json=request.data,
         headers={'Authorization': request.headers['Authorization']})
     return {"Success": True, "body": response.json(),   "status_code": response.status_code}
+
+
+def get_assessment_attribute_insight(request, assessment_id, attribute_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/attributes/{attribute_id}/insight',
+        headers={'Authorization': request.headers.get('Authorization')}
+    )
+
+    if response.status_code != 200:
+        return {
+            "Success": False,
+            "body": response.json(),
+            "status_code": response.status_code
+        }
+    return {
+        "Success": True,
+        "body": response.json(),
+        "status_code": response.status_code
+    }
