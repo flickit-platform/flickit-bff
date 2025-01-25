@@ -74,25 +74,6 @@ def get_assessment_insights(request, assessment_id):
     return load_result
 
 
-def get_subject_insights(request, assessment_id, subject_id):
-    response = requests.post(
-        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/subjects/{subject_id}/init-insight',
-        json=request.data,
-        headers={'Authorization': request.headers.get('Authorization')}
-    )
-    if response.status_code == 201:
-        return {
-            "Success": True,
-            "body": None,
-            "status_code": response.status_code
-        }
-    return {
-        "Success": False,
-        "body": response.json(),
-        "status_code": response.status_code
-    }
-
-
 def get_assessment_subject_insights(request, assessment_id, subject_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/subjects/{subject_id}/insight',
