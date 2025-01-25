@@ -33,6 +33,7 @@ urlpatterns = [
     path("<uuid:assessment_id>/invite/", assessment_views.InviteUsersAssessmentsApi.as_view()),
     path("<uuid:assessment_id>/invitees/", assessment_views.InviteesAssessmentsApi.as_view()),
     path("<uuid:assessment_id>/insight/", assessment_insight_views.AssessmentInsightApi.as_view()),
+    path("<uuid:assessment_id>/init-insight/", assessment_insight_views.InitAssessmentInsightApi.as_view()),
     path("<uuid:assessment_id>/insight/subjects/<int:subject_id>/",
          assessment_insight_views.AssessmentSubjectInsightApi.as_view()),
     path("<uuid:assessment_id>/subjects/<int:subject_id>/insight/",
