@@ -34,6 +34,16 @@ class AssessmentSubjectInsightApi(APIView):
         return Response(data=result["body"], status=result["status_code"])
 
 
+class SubjectInitInsightApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, assessment_id, subject_id):
+        result = assessment_insight_services.init_subject_insight(request,
+                                                                  assessment_id,
+                                                                  subject_id)
+        return Response(result["body"], result["status_code"])
+
+
 class AssessmentSubjectLoadInsightApi(APIView):
     permission_classes = [IsAuthenticated]
 
