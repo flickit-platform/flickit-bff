@@ -2,7 +2,7 @@ from django.urls import path
 
 from assessment.views import (projectviews, reportviews, confidence_levels_views, assessment_views, dashboard_views,
                               advice_views, assessment_user_roles_views, maturity_level_views, questionnaire_views,
-                              question_views, assessment_insight_views, assessment_analysis_views)
+                              question_views, assessment_insight_views, assessment_analysis_views, assessment_report_views)
 
 urlpatterns = [
     path("", projectviews.AssessmentProjectApi.as_view()),
@@ -32,6 +32,7 @@ urlpatterns = [
          reportviews.AssessmentAttributesReportAiApi.as_view()),
     path("<uuid:assessment_id>/invite/", assessment_views.InviteUsersAssessmentsApi.as_view()),
     path("<uuid:assessment_id>/invitees/", assessment_views.InviteesAssessmentsApi.as_view()),
+    path("<uuid:assessment_id>/graphical-report/", assessment_report_views.GraphicalReportApi.as_view()),
     path("<uuid:assessment_id>/insight/", assessment_insight_views.AssessmentInsightApi.as_view()),
     path("<uuid:assessment_id>/overall-insight/", assessment_insight_views.AssessmentInsightApi.as_view()),
     path("<uuid:assessment_id>/init-insight/", assessment_insight_views.InitAssessmentInsightApi.as_view()),

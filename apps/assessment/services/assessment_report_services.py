@@ -44,3 +44,9 @@ def load_assessment_attributes_report_ai(request, assessment_id, attribute_id):
                              f'assessment-core/api/assessments/{assessment_id}/ai-report/attributes/{attribute_id}',
                              headers={'Authorization': request.headers['Authorization']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
+def get_graphical_report(request, assessment_id):
+    response = requests.get(ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/graphical-report',
+                            headers={'Authorization': request.headers['Authorization']})
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
