@@ -2,7 +2,7 @@ from django.urls import path
 
 from assessment.views import (projectviews, reportviews, confidence_levels_views, assessment_views, dashboard_views,
                               advice_views, assessment_user_roles_views, maturity_level_views, questionnaire_views,
-                              question_views, assessment_insight_views, assessment_analysis_views)
+                              question_views, assessment_insight_views, assessment_analysis_views, assessment_report_views)
 
 urlpatterns = [
     path("", projectviews.AssessmentProjectApi.as_view()),
@@ -32,8 +32,12 @@ urlpatterns = [
          reportviews.AssessmentAttributesReportAiApi.as_view()),
     path("<uuid:assessment_id>/invite/", assessment_views.InviteUsersAssessmentsApi.as_view()),
     path("<uuid:assessment_id>/invitees/", assessment_views.InviteesAssessmentsApi.as_view()),
+    path("<uuid:assessment_id>/graphical-report/", assessment_report_views.GraphicalReportApi.as_view()),
+    path("<uuid:assessment_id>/report-publish-status/", assessment_report_views.ReportPublishStatus.as_view()),
     path("<uuid:assessment_id>/insight/", assessment_insight_views.AssessmentInsightApi.as_view()),
+    path("<uuid:assessment_id>/overall-insight/", assessment_insight_views.AssessmentInsightApi.as_view()),
     path("<uuid:assessment_id>/init-insight/", assessment_insight_views.InitAssessmentInsightApi.as_view()),
+    path("<uuid:assessment_id>/init-overall-insight/", assessment_insight_views.InitAssessmentInsightApi.as_view()),
     path("<uuid:assessment_id>/insight/subjects/<int:subject_id>/",
          assessment_insight_views.AssessmentSubjectInsightApi.as_view()),
     path("<uuid:assessment_id>/subjects/<int:subject_id>/insight/",
@@ -52,6 +56,7 @@ urlpatterns = [
     path("<uuid:assessment_id>/dashboard/", dashboard_views.AssessmentDashboardApi.as_view()),
     path("<uuid:assessment_id>/permissions/", assessment_views.AssessmentPermissionsListApi.as_view()),
     path("<uuid:assessment_id>/approve-insight/", assessment_insight_views.ApproveAssessmentInsightApi.as_view()),
+    path("<uuid:assessment_id>/approve-overall-insight/", assessment_insight_views.ApproveAssessmentInsightApi.as_view()),
     path("<uuid:assessment_id>/grant-report-access/", assessment_views.GrantReportAccessApi.as_view()),
     path("<uuid:assessment_id>/users-with-report-access/", assessment_views.UsersWithReportAccessApi.as_view()),
     path("<uuid:assessment_id>/report-metadata/", assessment_views.ReportMetadataAPI.as_view()),
