@@ -8,7 +8,8 @@ from assessmentplatform.settings import ASSESSMENT_URL, ASSESSMENT_SERVER_PORT
 def get_subject_progress(request, assessment_id, subject_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/subjects/{subject_id}/progress',
-        headers={'Authorization': request.headers['Authorization']})
+        headers={'Authorization': request.headers['Authorization'],
+                 'Accept-Language': request.headers['Accept-Language']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
@@ -107,12 +108,14 @@ def get_path_info_with_space_id(request, space_id):
 def get_assessment_attribute_report(request, assessment_id, attribute_id):
     response = requests.get(ASSESSMENT_URL +
                             f'assessment-core/api/assessments/{assessment_id}/report/attributes/{attribute_id}',
-                            params=request.query_params, headers={'Authorization': request.headers['Authorization']})
+                            params=request.query_params, headers={'Authorization': request.headers['Authorization'],
+                                                                  'Accept-Language': request.headers['Accept-Language']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
 def get_attribute_stats_report(request, assessment_id, attribute_id):
     response = requests.get(ASSESSMENT_URL +
                             f'assessment-core/api/assessments/{assessment_id}/report/attributes/{attribute_id}/stats',
-                            params=request.query_params, headers={'Authorization': request.headers['Authorization']})
+                            params=request.query_params, headers={'Authorization': request.headers['Authorization'],
+                                                                  'Accept-Language': request.headers['Accept-Language']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}

@@ -7,7 +7,8 @@ from assessmentplatform.settings import ASSESSMENT_URL
 def load_assessment_details_with_id(request, assessment_id):
     result = dict()
     response = requests.get(ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}',
-                            headers={'Authorization': request.headers['Authorization']})
+                            headers={'Authorization': request.headers['Authorization'],
+                                     'Accept-Language': request.headers['Accept-Language']})
     if response.status_code == status.HTTP_200_OK:
         data = response.json()
         if not request.user.spaces.filter(id=data["space"]["id"]).exists():
