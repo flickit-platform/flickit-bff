@@ -19,14 +19,16 @@ class DictObject:
 def get_assessment_progres(request, assessment_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/progress',
-        headers={'Authorization': request.headers['Authorization']})
+        headers={'Authorization': request.headers['Authorization'],
+                 'Accept-Language': request.headers['Accept-Language']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
 def get_subject_progres(request, assessment_id, subject_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/subjects/{subject_id}/progress',
-        headers={'Authorization': request.headers['Authorization']})
+        headers={'Authorization': request.headers['Authorization'],
+                 'Accept-Language': request.headers['Accept-Language']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 

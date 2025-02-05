@@ -6,5 +6,6 @@ from rest_framework import status
 
 def create_assessment_by_dsl(data, request):
     response = requests.post(ASSESSMENT_URL + f'assessment-core/api/assessment-kits/create-by-dsl', json=data,
-                             headers={'Authorization': request.headers['Authorization']})
+                             headers={'Authorization': request.headers['Authorization'],
+                                      'Accept-Language': request.headers['Accept-Language']})
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
