@@ -34,7 +34,8 @@ def create_spacer(request):
     response = requests.post(
         ASSESSMENT_URL + 'assessment-core/api/spaces',
         json=request.data,
-        headers={'Authorization': request.headers['Authorization']})
+        headers={'Authorization': request.headers['Authorization'],
+                 'Accept-Language': request.headers['Accept-Language']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
