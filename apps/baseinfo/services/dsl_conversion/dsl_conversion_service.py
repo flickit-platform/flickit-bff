@@ -31,13 +31,18 @@ class DSLConverterService:
                 subject_title = row[constants.SHEET_QUALITY_ATTRIBUTES_SUBJECT_TITLE]
                 subject_weight = row[constants.SHEET_SUBJECT_WEIGHT]
                 subject_description = row[constants.SHEET_QUALITY_ATTRIBUTES_SUBJECT_DESCRIPTION]
-                dsl.append(
+
+                dsl_entry = (
                     f'subject {subject_name} {{\n'
                     f'    title: "{subject_title}"\n'
-                    f'    weight: {int(subject_weight)}\n'
                     f'    description: "{subject_description}"\n'
-                    f'}}'
                 )
+
+                if not pd.isna(subject_weight):
+                    dsl_entry += f'    weight: {int(subject_weight)}\n'
+
+                dsl_entry += '}'
+                dsl.append(dsl_entry)
         except KeyError as e:
             raise ValueError(f"Error: Missing expected column in the sheet: {e}")
         except Exception as e:
