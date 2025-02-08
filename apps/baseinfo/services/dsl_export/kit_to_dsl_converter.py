@@ -36,11 +36,16 @@ class KitToDSLConverterService:
         subject_dsl = []
         subject_template = self.env.get_template('subject_template.txt')
         for subject in sorted(kit.subjects, key=lambda x: x.index):
-            rendered = subject_template.render(
-                subject_name=subject.subject_name,
-                title=subject.title,
-                description=self.escape_quotes(subject.description)
-            )
+            subject_data = {
+                'subject_name': subject.subject_name,
+                'title': subject.title,
+                'description': self.escape_quotes(subject.description)
+            }
+
+            if hasattr(subject, 'weight') and subject.weight is not None:
+                subject_data['weight'] = subject.weight
+
+            rendered = subject_template.render(subject_data)
             subject_dsl.append(rendered)
         dsl_files[constants.OUTPUT_FILE_SUBJECTS] = '\n\n'.join(subject_dsl)
 

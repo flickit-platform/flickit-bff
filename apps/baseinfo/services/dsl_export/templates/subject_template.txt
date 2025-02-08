@@ -1,4 +1,7 @@
 subject {{ subject_name }} {
     title: "{{ title }}"
     description: "{{ description }}"
+    {% if weight is not none %}
+    weight: {{ weight }}
+    {% endif %}
 }
