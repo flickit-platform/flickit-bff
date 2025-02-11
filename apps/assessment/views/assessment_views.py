@@ -156,3 +156,11 @@ class QuestionIssuesApi(APIView):
     def get(self, request, assessment_id, question_id):
         result = assessment_services.get_question_issues(request, assessment_id, question_id)
         return Response(data=result["body"], status=result["status_code"])
+
+
+class PreAdviceInfoApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, assessment_id):
+        result = assessment_services.get_pre_advice_info(request, assessment_id)
+        return Response(data=result["body"], status=result["status_code"])
