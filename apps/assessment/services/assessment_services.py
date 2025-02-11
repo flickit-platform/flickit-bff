@@ -186,8 +186,32 @@ def get_advisory_goals(request, assessment_id):
 
     merged_response = {}
     if attributes_response.status_code == 200 and maturity_levels_response.status_code == 200:
-        merged_response.update(attributes_response.json())
-        merged_response.update(maturity_levels_response.json())
+        attributes_data = attributes_response.json().get("attributes", [])
+        processed_attributes = [
+            {
+                "id": attr["id"],
+                "title": attr["title"],
+                "maturityLevel": {"id": attr["maturityLevel"]["id"]},
+                "subject": {
+                    "id": attr["subject"]["id"],
+                    "title": attr["subject"]["title"],
+                },
+            }
+            for attr in attributes_data
+        ]
+        merged_response["attributes"] = processed_attributes
+
+        maturity_levels_data = maturity_levels_response.json().get("maturityLevels", [])
+        processed_maturity_levels = [
+            {
+                "id": lvl["id"],
+                "title": lvl["title"],
+                "index": lvl["index"],
+                "value": lvl["value"],
+            }
+            for lvl in maturity_levels_data
+        ]
+        merged_response["maturityLevels"] = processed_maturity_levels
         return {"Success": True, "body": merged_response, "status_code": 200}
 
     merged_response.update(attributes_response.json())
