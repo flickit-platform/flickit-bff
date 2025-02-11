@@ -1,6 +1,8 @@
 from http import HTTPStatus
 
 import requests
+
+from assessment.services import assessment_permission_services
 from assessmentplatform.settings import ASSESSMENT_URL
 
 
@@ -176,7 +178,11 @@ def get_question_issues(request, assessment_id, question_id):
                  'Accept-Language': request.headers['Accept-Language']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
-def get_advisory_goals(request, assessment_id):
+def get_pre_advice_info(request, assessment_id):
+    permissions_result = assessment_permission_services.get_assessment_permissions_list(request, assessment_id)
+    if permissions_result.get("createAdvice", False):
+        return {"Success": False, "body": "Not allowed to perform this action", "status_code": HTTPStatus.FORBIDDEN}
+
     attributes_response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/attributes',
         headers={'Authorization': request.headers['Authorization'],
