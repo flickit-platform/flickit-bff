@@ -173,3 +173,23 @@ def get_question_issues(request, assessment_id, question_id):
         headers={'Authorization': request.headers['Authorization'],
                  'Accept-Language': request.headers['Accept-Language']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+def get_advisory_goals(request, assessment_id):
+    attributes_response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/attributes',
+        headers={'Authorization': request.headers['Authorization'],
+                 'Accept-Language': request.headers['Accept-Language']})
+    maturity_levels_response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/maturity-levels',
+        headers={'Authorization': request.headers['Authorization'],
+                 'Accept-Language': request.headers['Accept-Language']})
+
+    merged_response = {}
+    if attributes_response.status_code == 200 and maturity_levels_response.status_code == 200:
+        merged_response.update(attributes_response.json())
+        merged_response.update(maturity_levels_response.json())
+        return {"Success": True, "body": merged_response, "status_code": 200}
+
+    merged_response.update(attributes_response.json())
+    merged_response.update(maturity_levels_response.json())
+    return {"Success": False, "body": merged_response, "status_code": 200}
