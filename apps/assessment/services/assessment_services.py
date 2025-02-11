@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 import requests
 from assessmentplatform.settings import ASSESSMENT_URL
 
@@ -212,8 +214,8 @@ def get_advisory_goals(request, assessment_id):
             for lvl in maturity_levels_data
         ]
         merged_response["maturityLevels"] = processed_maturity_levels
-        return {"Success": True, "body": merged_response, "status_code": 200}
+        return {"Success": True, "body": merged_response, "status_code": HTTPStatus.OK}
 
     merged_response.update(attributes_response.json())
     merged_response.update(maturity_levels_response.json())
-    return {"Success": False, "body": merged_response, "status_code": 200}
+    return {"Success": False, "body": merged_response, "status_code": HTTPStatus.BAD_REQUEST}
