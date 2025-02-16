@@ -164,7 +164,7 @@ def init_subject_insight(request, assessment_id, subject_id):
 
 def init_assessment_insight(request, assessment_id):
     response = requests.post(
-        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/init-insight',
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/init-overall-insight',
         json=request.data,
         headers={'Authorization': request.headers['Authorization'],
                  'Accept-Language': request.headers['Accept-Language']})
