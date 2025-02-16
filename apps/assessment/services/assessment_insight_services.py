@@ -34,7 +34,7 @@ def init_assessment_insights(request, assessment_id):
 
 def get_assessment_insights(request, assessment_id):
     response = requests.get(
-        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/insights',
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/overall-insight',
         headers={'Authorization': request.headers.get('Authorization')}
     )
     if response.status_code != 200:
@@ -66,17 +66,6 @@ def get_assessment_subject_insights(request, assessment_id, subject_id):
         "body": response.json(),
         "status_code": response.status_code
     }
-
-
-def create_assessment_subject_insights(request, assessment_id, subject_id):
-    response = requests.post(
-        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/insights/subjects/{subject_id}',
-        json=request.data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
-    if response.status_code == 200:
-        return {"Success": True, "body": None, "status_code": response.status_code}
-    return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
 
 def create_assessment_subject_insight(request, assessment_id, subject_id):
