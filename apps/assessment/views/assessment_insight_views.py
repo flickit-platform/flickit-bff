@@ -123,3 +123,13 @@ class AssessmentAttributeAiInsightApi(APIView):
     def post(self, request, assessment_id, attribute_id):
         result = assessment_insight_services.create_attributes_ai_insight(request, assessment_id, attribute_id)
         return Response(data=result["body"], status=result["status_code"])
+
+
+class ApproveAllAssessmentInsightsApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, assessment_id):
+        result = assessment_insight_services.approve_all_assessment_insights(request, assessment_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
