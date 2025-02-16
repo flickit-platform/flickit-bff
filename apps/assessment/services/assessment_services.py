@@ -225,3 +225,14 @@ def get_pre_advice_info(request, assessment_id):
     merged_response.update(attributes_response.json())
     merged_response.update(maturity_levels_response.json())
     return {"Success": False, "body": merged_response, "status_code": HTTPStatus.BAD_REQUEST}
+
+
+def approve_answer(request, assessment_id):
+    response = requests.put(
+    ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/approve-answer',
+    json = request.data,
+    headers={'Authorization': request.headers['Authorization'],
+            'Accept-Language': request.headers['Accept-Language']})
+    if response.status_code == 200:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
