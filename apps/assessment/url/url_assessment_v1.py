@@ -30,8 +30,6 @@ urlpatterns = [
     path("<uuid:assessment_id>/approve-answer/", assessment_views.ApproveAnswerApi.as_view()),
     path("<uuid:assessment_id>/advice-narration/", advice_views.AdviceNarrationView.as_view()),
     path("<uuid:assessment_id>/advice-narration-ai/", advice_views.AdviceNarrationAiView.as_view()),
-    path("<uuid:assessment_id>/ai-report/attributes/<int:attribute_id>/",
-         reportviews.AssessmentAttributesReportAiApi.as_view()),
     path("<uuid:assessment_id>/invite/", assessment_views.InviteUsersAssessmentsApi.as_view()),
     path("<uuid:assessment_id>/invitees/", assessment_views.InviteesAssessmentsApi.as_view()),
     path("<uuid:assessment_id>/graphical-report/", assessment_report_views.GraphicalReportApi.as_view()),
