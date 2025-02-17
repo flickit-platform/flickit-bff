@@ -12,6 +12,7 @@ admin.autodiscover()
 urlpatterns = [
     path(r'ht/', include('health_check.urls')),
     path("admin/", admin.site.urls),
+    path('api/v1/kit-languages', include('baseinfo.url.url_kit_language_v1')),
     path('api/v1/assessment-kits/', include('baseinfo.url.url_assessment_kit_v1')),
     path('api/v2/assessment-kits/', include('baseinfo.url.url_assessment_kit_v2')),
     path('api/v1/assessment-kit-tags/', include('baseinfo.url.url_assessment_kit_tags_v1')),
