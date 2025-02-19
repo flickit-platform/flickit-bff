@@ -4,7 +4,7 @@ from assessmentplatform.settings import ASSESSMENT_URL
 
 
 def create_assessment_insights(request, assessment_id):
-    response = requests.post(ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/insights',
+    response = requests.post(ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/overall-insight',
                              json=request.data,
                              headers={'Authorization': request.headers['Authorization'],
                                       'Accept-Language': request.headers['Accept-Language']})
