@@ -103,7 +103,7 @@ def approve_subject_insight(request, assessment_id, subject_id):
 
 def approve_assessment_insight(request, assessment_id):
     response = requests.put(
-        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/approve-insight',
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/approve-overall-insight',
         json=request.data,
         headers={'Authorization': request.headers['Authorization'],
                  'Accept-Language': request.headers['Accept-Language']})
