@@ -1,6 +1,6 @@
 from django.urls import path
 
-from account.views.tenant_views import TenantInfoApi, TenantLogoApi
+from account.views.tenant_views import TenantInfoApi, TenantLogoApi, TenantApi
 
 urlpatterns = [
     path("info/", TenantInfoApi.as_view()),
