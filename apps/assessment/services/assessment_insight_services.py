@@ -184,7 +184,7 @@ def approve_all_assessment_insights(request, assessment_id):
 
 
 def generate_all_assessment_insights(request, assessment_id):
-    response = requests.put(
+    response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/generate-insights',
         headers={'Authorization': request.headers['Authorization'],
                  'Accept-Language': request.headers['Accept-Language']})
