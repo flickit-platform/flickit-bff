@@ -121,3 +121,13 @@ class ApproveAllAssessmentInsightsApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+
+class GenerateAllAssessmentInsightsApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, assessment_id):
+        result = assessment_insight_services.generate_all_assessment_insights(request, assessment_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
