@@ -194,7 +194,7 @@ def generate_all_assessment_insights(request, assessment_id):
 
 def regenerate_all_assessment_insights(request, assessment_id):
     response = requests.put(
-        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/regenerate-insights',
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/regenerate-expired-insights',
         headers={'Authorization': request.headers['Authorization'],
                  'Accept-Language': request.headers['Accept-Language']})
     if response.status_code == 200:
