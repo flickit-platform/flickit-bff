@@ -51,6 +51,8 @@ urlpatterns = [
          assessment_insight_views.ApproveAllAssessmentInsightsApi.as_view()),
     path("<uuid:assessment_id>/generate-insights/",
          assessment_insight_views.GenerateAllAssessmentInsightsApi.as_view()),
+    path("<uuid:assessment_id>/regenerate-insights/",
+         assessment_insight_views.RegenerateAllAssessmentInsightsApi.as_view()),
     path("<uuid:assessment_id>/analysis-input/", assessment_analysis_views.UploadAnalysisFileApi.as_view()),
     path("<uuid:assessment_id>/migrate-kit-version/", assessment_views.AssessmentMigrateKitVersionApi.as_view()),
     path("<uuid:assessment_id>/assign-kit-custom/", assessment_views.AssessmentAssignCustomKitApi.as_view()),
