@@ -192,7 +192,7 @@ def generate_all_assessment_insights(request, assessment_id):
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
-def regenerate_all_assessment_insights(request, assessment_id):
+def regenerate_expired_assessment_insights(request, assessment_id):
     response = requests.put(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/regenerate-expired-insights',
         headers={'Authorization': request.headers['Authorization'],
