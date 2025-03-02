@@ -201,3 +201,14 @@ def regenerate_expired_assessment_insights(request, assessment_id):
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def approve_expired_assessment_insights(request, assessment_id):
+    response = requests.put(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/approve-expired-insights',
+        headers={'Authorization': request.headers['Authorization'],
+                 'Accept-Language': request.headers['Accept-Language']})
+    if response.status_code == 200:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
