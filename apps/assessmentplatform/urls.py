@@ -31,6 +31,7 @@ urlpatterns = [
     path('api/v1/comparable-assessments/', include('assessment.url.url_comparable_assessments_v1')),
     path('api/v1/assessment-user-roles/', include('assessment.url.url_assessment_user_roles_v1')),
     path('api/v1/evidences/', include('assessment.url.url_evidences')),
+    path('api/v1/comments/', include('assessment.url.url_comments')),
     path('api/v1/path-info/', include('assessment.url.url_path_info')),
     path('api/v1/confidence-levels/', include('assessment.url.confidence-levels-url')),
     path('api/v1/expert-groups/', include('baseinfo.url.expert_group_url')),
