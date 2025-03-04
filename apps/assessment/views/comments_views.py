@@ -20,6 +20,4 @@ class CommentsApi(APIView):
     @swagger_auto_schema(manual_parameters=[size_param, page_param, questionId_param, assessmentId_param])
     def get(self, request):
         result = comments_services.get_list_comments(request)
-        if result["Success"]:
-            return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
