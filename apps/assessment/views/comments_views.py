@@ -21,3 +21,11 @@ class CommentsApi(APIView):
     def get(self, request):
         result = comments_services.get_list_comments(request)
         return Response(data=result["body"], status=result["status_code"])
+
+
+class ResolveCommentsApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, assessment_id):
+        result = comments_services.resolve_assessment_comments(request, assessment_id)
+        return Response(data=result["body"], status=result["status_code"])
