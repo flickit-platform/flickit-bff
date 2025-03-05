@@ -2,7 +2,8 @@ from django.urls import path
 
 from assessment.views import (projectviews, reportviews, confidence_levels_views, assessment_views, dashboard_views,
                               advice_views, assessment_user_roles_views, maturity_level_views, questionnaire_views,
-                              question_views, assessment_insight_views, assessment_analysis_views, assessment_report_views)
+                              question_views, assessment_insight_views, assessment_analysis_views,
+                              assessment_report_views, comments_views)
 
 urlpatterns = [
     path("", projectviews.AssessmentProjectApi.as_view()),
@@ -64,5 +65,6 @@ urlpatterns = [
     path("<uuid:assessment_id>/grant-report-access/", assessment_views.GrantReportAccessApi.as_view()),
     path("<uuid:assessment_id>/users-with-report-access/", assessment_views.UsersWithReportAccessApi.as_view()),
     path("<uuid:assessment_id>/report-metadata/", assessment_views.ReportMetadataAPI.as_view()),
+    path("<uuid:assessment_id>/resolve-comments/", comments_views.ResolveCommentsApi.as_view()),
     path("<uuid:assessment_id>/questions/<int:question_id>/issues/", assessment_views.QuestionIssuesApi.as_view()),
 ]
