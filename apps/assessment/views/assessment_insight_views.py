@@ -18,6 +18,13 @@ class AssessmentInsightApi(APIView):
         return Response(data=result["body"], status=result["status_code"])
 
     def get(self, request, assessment_id):
+        result = assessment_insight_services.get_assessment_overall_insights(request, assessment_id)
+        return Response(data=result["body"], status=result["status_code"])
+
+class AssessmentInsightsApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, assessment_id):
         result = assessment_insight_services.get_assessment_insights(request, assessment_id)
         return Response(data=result["body"], status=result["status_code"])
 
