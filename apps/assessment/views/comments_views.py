@@ -26,6 +26,6 @@ class CommentsApi(APIView):
 class ResolveCommentsApi(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, assessment_id):
+    def put(self, request, assessment_id):
         result = comments_services.resolve_assessment_comments(request, assessment_id)
         return Response(data=result["body"], status=result["status_code"])
