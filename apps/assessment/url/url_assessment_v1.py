@@ -36,6 +36,7 @@ urlpatterns = [
     path("<uuid:assessment_id>/graphical-report/", assessment_report_views.GraphicalReportApi.as_view()),
     path("<uuid:assessment_id>/report-publish-status/", assessment_report_views.ReportPublishStatus.as_view()),
     path("<uuid:assessment_id>/insight/", assessment_insight_views.AssessmentInsightApi.as_view()),
+    path("<uuid:assessment_id>/insights/", assessment_insight_views.AssessmentInsightsApi.as_view()),
     path("<uuid:assessment_id>/overall-insight/", assessment_insight_views.AssessmentInsightApi.as_view()),
     path("<uuid:assessment_id>/init-overall-insight/", assessment_insight_views.InitAssessmentInsightApi.as_view()),
     path("<uuid:assessment_id>/subjects/<int:subject_id>/insight/",
