@@ -236,4 +236,3 @@ def approve_answer(request, assessment_id):
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
-
