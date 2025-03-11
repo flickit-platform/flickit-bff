@@ -17,7 +17,8 @@ def init_assessment_insights(request, assessment_id):
     response = requests.post(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/init-insight',
         json=request.data,
-        headers={'Authorization': request.headers.get('Authorization')}
+        headers={'Authorization': request.headers.get('Authorization'),
+                 'Accept-Language': request.headers['Accept-Language']}
     )
     if response.status_code == 201:
         return {
@@ -35,7 +36,8 @@ def init_assessment_insights(request, assessment_id):
 def get_assessment_overall_insights(request, assessment_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/overall-insight',
-        headers={'Authorization': request.headers.get('Authorization')}
+        headers={'Authorization': request.headers.get('Authorization'),
+                 'Accept-Language': request.headers['Accept-Language']}
     )
     if response.status_code != 200:
         return {
@@ -53,7 +55,8 @@ def get_assessment_overall_insights(request, assessment_id):
 def get_assessment_insights(request, assessment_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/insights',
-        headers={'Authorization': request.headers.get('Authorization')}
+        headers={'Authorization': request.headers.get('Authorization'),
+                 'Accept-Language': request.headers['Accept-Language']}
     )
     if response.status_code != 200:
         return {
@@ -71,7 +74,8 @@ def get_assessment_insights(request, assessment_id):
 def get_assessment_subject_insights(request, assessment_id, subject_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/subjects/{subject_id}/insight',
-        headers={'Authorization': request.headers.get('Authorization')}
+        headers={'Authorization': request.headers.get('Authorization'),
+                 'Accept-Language': request.headers['Accept-Language']}
     )
     if response.status_code != 200:
         return {
@@ -153,7 +157,8 @@ def create_attributes_ai_insight(request, assessment_id, attribute_id):
 def get_assessment_attribute_insight(request, assessment_id, attribute_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/attributes/{attribute_id}/insight',
-        headers={'Authorization': request.headers.get('Authorization')}
+        headers={'Authorization': request.headers.get('Authorization'),
+                 'Accept-Language': request.headers['Accept-Language']}
     )
 
     if response.status_code != 200:
