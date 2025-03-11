@@ -242,12 +242,6 @@ def get_assessment_insights_issues(request, assessment_id):
         headers={'Authorization': request.headers.get('Authorization'),
                  'Accept-Language': request.headers['Accept-Language']}
     )
-    if response.status_code != 200:
-        return {
-            "Success": False,
-            "body": response.json(),
-            "status_code": response.status_code
-        }
     return {
         "Success": True,
         "body": response.json(),
