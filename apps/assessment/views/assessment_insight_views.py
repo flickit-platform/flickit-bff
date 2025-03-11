@@ -158,3 +158,11 @@ class ApproveExpiredAssessmentInsightsApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+
+class GetAssessmentInsightsIssuesApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, assessment_id):
+        result = assessment_insight_services.get_assessment_insights_issues(request, assessment_id)
+        return Response(data=result["body"], status=result["status_code"])
