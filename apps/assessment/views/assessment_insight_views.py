@@ -145,8 +145,6 @@ class RegenerateExpiredAssessmentInsightsApi(APIView):
 
     def put(self, request, assessment_id):
         result = assessment_insight_services.regenerate_expired_assessment_insights(request, assessment_id)
-        if result["Success"]:
-            return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
 
 
