@@ -230,3 +230,21 @@ def approve_expired_assessment_insights(request, assessment_id):
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
+
+def get_assessment_insights_issues(request, assessment_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/insights-issues',
+        headers={'Authorization': request.headers.get('Authorization'),
+                 'Accept-Language': request.headers['Accept-Language']}
+    )
+    if response.status_code != 200:
+        return {
+            "Success": False,
+            "body": response.json(),
+            "status_code": response.status_code
+        }
+    return {
+        "Success": True,
+        "body": response.json(),
+        "status_code": response.status_code
+    }
