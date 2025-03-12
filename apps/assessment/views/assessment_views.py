@@ -177,11 +177,11 @@ class ApproveAnswerApi(APIView):
         return Response(data=result["body"], status=result["status_code"])
 
 
-class ApproveAnswersApi(APIView):
+class ApproveAssessmentAnswersApi(APIView):
     permission_classes = [IsAuthenticated]
 
     def put(self, request, assessment_id):
-        result = assessment_services.approve_answers(request, assessment_id)
+        result = assessment_services.approve_assessment_answers(request, assessment_id)
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])

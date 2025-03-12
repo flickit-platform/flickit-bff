@@ -238,7 +238,7 @@ def approve_answer(request, assessment_id):
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
 
-def approve_answers(request, assessment_id):
+def approve_assessment_answers(request, assessment_id):
     response = requests.put(
     ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/approve-answers',
     headers={'Authorization': request.headers['Authorization'],
