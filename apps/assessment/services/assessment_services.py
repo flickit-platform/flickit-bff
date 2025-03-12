@@ -236,3 +236,14 @@ def approve_answer(request, assessment_id):
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def approve_answers(request, assessment_id):
+    response = requests.put(
+    ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/approve-answers',
+    json = request.data,
+    headers={'Authorization': request.headers['Authorization'],
+            'Accept-Language': request.headers['Accept-Language']})
+    if response.status_code == 200:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
