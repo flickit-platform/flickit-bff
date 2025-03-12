@@ -59,6 +59,7 @@ urlpatterns = [
     path("<uuid:assessment_id>/approve-expired-insights/",
          assessment_insight_views.ApproveExpiredAssessmentInsightsApi.as_view()),
     path("<uuid:assessment_id>/analysis-input/", assessment_analysis_views.UploadAnalysisFileApi.as_view()),
+    path("<uuid:assessment_id>/insights-issues/", assessment_insight_views.GetAssessmentInsightsIssuesApi.as_view()),
     path("<uuid:assessment_id>/migrate-kit-version/", assessment_views.AssessmentMigrateKitVersionApi.as_view()),
     path("<uuid:assessment_id>/assign-kit-custom/", assessment_views.AssessmentAssignCustomKitApi.as_view()),
     path("<uuid:assessment_id>/dashboard/", dashboard_views.AssessmentDashboardApi.as_view()),
