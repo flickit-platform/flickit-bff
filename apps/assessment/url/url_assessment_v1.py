@@ -3,7 +3,7 @@ from django.urls import path
 from assessment.views import (projectviews, reportviews, confidence_levels_views, assessment_views, dashboard_views,
                               advice_views, assessment_user_roles_views, maturity_level_views, questionnaire_views,
                               question_views, assessment_insight_views, assessment_analysis_views,
-                              assessment_report_views, comments_views)
+                              assessment_report_views, comments_views, assessment_attribute_measures_views)
 
 urlpatterns = [
     path("", projectviews.AssessmentProjectApi.as_view()),
@@ -48,6 +48,8 @@ urlpatterns = [
          assessment_insight_views.ApproveAttributeInsightApi.as_view()),
     path("<uuid:assessment_id>/attributes/<int:attribute_id>/insight/",
          assessment_insight_views.AssessmentAttributeInsightApi.as_view()),
+    path("<uuid:assessment_id>/attributes/<int:attribute_id>/measures/",
+         assessment_attribute_measures_views.AssessmentAttributeMeasuresApi.as_view()),
     path("<uuid:assessment_id>/attributes/<int:attribute_id>/ai-insight/",
          assessment_insight_views.AssessmentAttributeAiInsightApi.as_view()),
     path("<uuid:assessment_id>/approve-insights/",
