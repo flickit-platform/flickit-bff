@@ -445,3 +445,10 @@ class KitVersionValidateApi(APIView):
     def get(self, request, kit_version_id):
         result = kit_versions_services.load_kit_version_validate(request, kit_version_id)
         return Response(data=result["body"], status=result["status_code"])
+
+class MeasuresApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, kit_version_id):
+        result = kit_versions_services.get_measures_list(request, kit_version_id)
+        return Response(data=result["body"], status=result["status_code"])
