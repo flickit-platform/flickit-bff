@@ -445,3 +445,12 @@ class KitVersionValidateApi(APIView):
     def get(self, request, kit_version_id):
         result = kit_versions_services.load_kit_version_validate(request, kit_version_id)
         return Response(data=result["body"], status=result["status_code"])
+
+class MeasuresApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT), responses={200: ""})
+    def put(self, request, kit_version_id, measure_id):
+        result = kit_versions_services.update_measures(request, kit_version_id, measure_id)
+        return Response(data=result["body"], status=result["status_code"])
