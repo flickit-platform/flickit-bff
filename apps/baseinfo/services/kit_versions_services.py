@@ -444,3 +444,12 @@ def load_kit_version_validate(request, kit_version_id):
         headers={'Authorization': request.headers['Authorization'],
                  'Accept-Language': request.headers['Accept-Language']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
+def get_measures_list(request, kit_version_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/kit-versions/{kit_version_id}/measures',
+        params=request.query_params,
+        headers={'Authorization': request.headers['Authorization'],
+                 'Accept-Language': request.headers['Accept-Language']})
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
