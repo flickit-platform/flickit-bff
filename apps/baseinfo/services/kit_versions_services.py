@@ -455,6 +455,18 @@ def get_measures_list(request, kit_version_id):
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
+def update_measures(request, kit_version_id, measure_id):
+    response = requests.put(
+        ASSESSMENT_URL + f'assessment-core/api/kit-versions/{kit_version_id}/measures/{measure_id}',
+        params=request.query_params,
+        json=request.data,
+        headers={'Authorization': request.headers['Authorization'],
+                 'Accept-Language': request.headers['Accept-Language']})
+    if response.status_code == 200:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
 def change_measure_order(request, kit_version_id):
     response = requests.put(
         ASSESSMENT_URL + f'assessment-core/api/kit-versions/{kit_version_id}/measures-change-order',
