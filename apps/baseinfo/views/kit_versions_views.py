@@ -458,6 +458,12 @@ class MeasuresApi(APIView):
     def put(self, request, kit_version_id, measure_id):
         result = kit_versions_services.update_measures(request, kit_version_id, measure_id)
         return Response(data=result["body"], status=result["status_code"])
+
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT), responses={200: ""})
+    def post(self, request, kit_version_id):
+        result = kit_versions_services.create_measures(request, kit_version_id)
+        return Response(data=result["body"], status=result["status_code"])
 class MeasureChangeOrderApi(APIView):
     permission_classes = [IsAuthenticated]
 
