@@ -58,4 +58,6 @@ urlpatterns = [
          kit_versions_views.MeasuresApi.as_view()),
     path("<str:kit_version_id>/measures/<str:measure_id>/",
          kit_versions_views.MeasuresApi.as_view()),
+    path("<str:kit_version_id>/measures-change-order/",
+         kit_versions_views.MeasureChangeOrderApi.as_view()),
 ]
