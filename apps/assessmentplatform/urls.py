@@ -42,6 +42,7 @@ urlpatterns = [
     path('api/v1/space-invitations/', include('account.url.url_space_invitations_v1')),
     path('api/v1/tenant/', include('account.url.url_tenant_v1')),
     path('api/v1/notification-platform-settings/', include('account.url.url_notify_settings_v1')),
+    path('api/v1/assessment-kits-banners/', include('assessment.url.url_assessment_kit_banners')),
 ]
 
 if settings.PRODUCTION_STATE == False:
