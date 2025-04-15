@@ -153,3 +153,13 @@ class CustomSubjectApi(APIView):
     def get(self, request, assessment_kit_id):
         result = assessment_kit_service.load_custom_subject(request, assessment_kit_id)
         return Response(data=result["body"], status=result["status_code"])
+
+
+class KitLanguageApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT), responses={201: ""})
+    def post(self, request, assessment_kit_id):
+        result = assessment_kit_service.add_kit_language(request, assessment_kit_id)
+        return Response(data=result["body"], status=result["status_code"])

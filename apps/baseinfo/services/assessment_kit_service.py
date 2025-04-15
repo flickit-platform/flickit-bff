@@ -146,3 +146,14 @@ def load_custom_subject(request, assessment_kit_id):
         headers={'Authorization': request.headers['Authorization'],
                  'Accept-Language': request.headers['Accept-Language']})
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
+def add_kit_language(request, assessment_kit_id):
+    response = requests.post(
+        ASSESSMENT_URL + f'assessment-core/api/assessment-kits/{assessment_kit_id}/add-language',
+        json=request.data,
+        headers={'Authorization': request.headers['Authorization'],
+                 'Accept-Language': request.headers['Accept-Language']})
+    if response.status_code == 201:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
