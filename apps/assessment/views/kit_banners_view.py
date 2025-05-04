@@ -2,13 +2,13 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 
 from assessment.services import kit_banners_services
 
 
 class AssessmentKitBannersApi(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     lang_param = openapi.Parameter('lang', openapi.IN_QUERY, description="lang",
                                    type=openapi.TYPE_STRING)
