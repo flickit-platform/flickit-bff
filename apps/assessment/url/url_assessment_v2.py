@@ -4,6 +4,7 @@ from assessment.views import questionnaire_views, assessment_report_views, quest
 
 urlpatterns = [
     path("", assessment_views.AssessmentsApi.as_view()),
+    path("/api/v1/assessment-kits/", assessment_views.AssessmentsApi.as_view()),
     path("<uuid:assessment_id>/", assessment_views.AssessmentApi.as_view()),
     path("<uuid:assessment_id>/answer-question/", question_views.AnswerQuestionApi.as_view()),
     path("<uuid:assessment_id>/questionnaires/", questionnaire_views.LoadQuestionnairesWithAssessmentApi.as_view()),

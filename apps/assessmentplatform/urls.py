@@ -12,6 +12,7 @@ admin.autodiscover()
 urlpatterns = [
     path(r'ht/', include('health_check.urls')),
     path("admin/", admin.site.urls),
+    path('api/v2/public/', include('baseinfo.url.public_url')),
     path('api/v1/kit-languages/', include('baseinfo.url.url_kit_language_v1')),
     path('api/v1/space-types/', include('baseinfo.url.url_space_types_v1')),
     path('api/v1/check-create-space/', include('baseinfo.url.url_check_create_space_v1')),
@@ -44,6 +45,7 @@ urlpatterns = [
     path('api/v1/notification-platform-settings/', include('account.url.url_notify_settings_v1')),
     path('api/v1/assessment-kits-banners/', include('assessment.url.url_assessment_kit_banners')),
 ]
+
 
 if settings.PRODUCTION_STATE == False:
     schema_view = get_schema_view(
