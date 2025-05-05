@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from baseinfo.services import assessment_kit_service
-
+from rest_framework.permissions import AllowAny
 
 class AssessmentKitStateApi(APIView):
     permission_classes = [IsAuthenticated]
@@ -115,6 +115,13 @@ class AssessmentKitsApi(APIView):
         result = assessment_kit_service.create_assessment_kit(request)
         return Response(data=result["body"], status=result["status_code"])
 
+
+class PublicAssessmentKitsApi(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        result = assessment_kit_service.get_public_assessment_kits_list(request)
+        return Response(data=result["body"], status=result["status_code"])
 
 class AssessmentKitsSearchApi(APIView):
     permission_classes = [IsAuthenticated]
