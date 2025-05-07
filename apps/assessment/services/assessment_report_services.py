@@ -32,6 +32,12 @@ def get_graphical_report(request, assessment_id):
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
+def get_public_graphical_report(request, link_hash):
+    response = requests.get(ASSESSMENT_URL + f'assessment-core/api/public/assessments/graphical-report/{link_hash}',
+                            headers={'Accept-Language': request.headers['Accept-Language']})
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
 def report_publish_status(request, assessment_id):
     response = requests.put(ASSESSMENT_URL +
                             f'assessment-core/api/assessments/{assessment_id}/report-publish-status',

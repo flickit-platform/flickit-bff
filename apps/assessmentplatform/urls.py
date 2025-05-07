@@ -12,7 +12,8 @@ admin.autodiscover()
 urlpatterns = [
     path(r'ht/', include('health_check.urls')),
     path("admin/", admin.site.urls),
-    path('api/v2/public/', include('baseinfo.url.public_url')),
+    path('api/v2/public/', include('baseinfo.url.public_url_v2')),
+    path('api/v1/public/', include('baseinfo.url.public_url_v1')),
     path('api/v1/kit-languages/', include('baseinfo.url.url_kit_language_v1')),
     path('api/v1/space-types/', include('baseinfo.url.url_space_types_v1')),
     path('api/v1/check-create-space/', include('baseinfo.url.url_check_create_space_v1')),
