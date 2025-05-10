@@ -123,6 +123,13 @@ class PublicAssessmentKitsApi(APIView):
         result = assessment_kit_service.get_public_assessment_kits_list(request)
         return Response(data=result["body"], status=result["status_code"])
 
+class PublicAssessmentKitApi(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, assessment_kit_id):
+        result = assessment_kit_service.get_public_assessment_kit(request, assessment_kit_id)
+        return Response(data=result["body"], status=result["status_code"])
+
 class AssessmentKitsSearchApi(APIView):
     permission_classes = [IsAuthenticated]
     query_param = openapi.Parameter('query', openapi.IN_QUERY, description="search query param",
