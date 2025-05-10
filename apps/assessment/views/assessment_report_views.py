@@ -1,6 +1,6 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -66,4 +66,12 @@ class ReportVisibilityStatus(APIView):
         type=openapi.TYPE_OBJECT), responses={200: ""})
     def put(self, request, assessment_id):
         result = assessment_report_services.report_visibility_status(request, assessment_id)
+        return Response(data=result["body"], status=result["status_code"])
+
+
+class PublicGraphicalReportApi(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, link_hash):
+        result = assessment_report_services.get_public_graphical_report(request, link_hash)
         return Response(data=result["body"], status=result["status_code"])
