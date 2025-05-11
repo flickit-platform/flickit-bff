@@ -113,6 +113,14 @@ def get_public_assessment_kits_list(request):
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
+def get_public_assessment_kit(request, assessment_kit_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/public/assessment-kits/{assessment_kit_id}',
+        params=request.query_params,
+        headers={'Accept-Language': request.headers['Accept-Language']})
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
 def get_assessment_kit_publish(request, assessment_kit_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessment-kits/{assessment_kit_id}',
