@@ -185,3 +185,15 @@ class ApproveAssessmentAnswersApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+class AssessmentModeApi(APIView):
+    permission_classes = [IsAuthenticated]
+    mode_param = openapi.Parameter('mode', openapi.IN_QUERY, description="mode",
+                                    type=openapi.TYPE_INTEGER)
+
+    @swagger_auto_schema(request_body = openapi.Schema(type = openapi.TYPE_OBJECT), response = 200)
+    def put(self, request, assessment_id):
+        result = assessment_services.update_assessment_mode(request, assessment_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
