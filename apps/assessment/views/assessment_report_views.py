@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from assessment.services import assessment_report_services, assessment_permission_services
+from assessment.services import assessment_report_services, assessment_permission_services, assessment_services
 
 
 class AssessmentReportApi(APIView):
@@ -43,9 +43,9 @@ class GraphicalReportApi(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, assessment_id):
-        reportResult = assessment_services.load_assessment(request, assessment_id)
-        if reportResult["status_code"] == 200:
-            data = reportResult["body"]
+        report_result = assessment_services.load_assessment(request, assessment_id)
+        if report_result["status_code"] == 200:
+            data = report_result["body"]
             mode = data.get("mode")
             if mode['code'] == "QUICK":
                 assessment_report_services.prepare_assessment_report(request, assessment_id)
