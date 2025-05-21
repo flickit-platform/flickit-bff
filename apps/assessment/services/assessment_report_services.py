@@ -58,3 +58,14 @@ def report_visibility_status(request, assessment_id):
     if response.status_code == 200:
         return {"Success": True, "body": response.json(), "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def prepare_assessment_report(request, assessment_id):
+    response = requests.post(ASSESSMENT_URL +
+                            f'assessment-core/api/assessments/{assessment_id}/prepare-report',
+                            json=request.data,
+                            headers={'Authorization': request.headers['Authorization'],
+                                     'Accept-Language': request.headers['Accept-Language']})
+    if response.status_code == 200:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
