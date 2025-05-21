@@ -43,6 +43,13 @@ class GraphicalReportApi(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, assessment_id):
+        reportResult = assessment_services.load_assessment(request, assessment_id)
+        if reportResult["status_code"] == 200:
+            data = reportResult["body"]
+            mode = data.get("mode")
+            if mode['code'] == "QUICK":
+                assessment_report_services.prepare_assessment_report(request, assessment_id)
+
         result = assessment_report_services.get_graphical_report(request, assessment_id)
         return Response(data=result["body"], status=result["status_code"])
 
