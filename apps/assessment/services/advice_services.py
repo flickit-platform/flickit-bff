@@ -72,3 +72,15 @@ def delete_advice_item(request, advice_item_id):
     if response.status_code == 204:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def refresh_advice(request, assessment_id, result_affected):
+    data = dict(request.data)
+    data['forceRegenerate'] = result_affected
+    response = requests.post(ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/refresh-advice',
+                             json=data,
+                             headers={'Authorization': request.headers['Authorization'],
+                                      'Accept-Language': request.headers['Accept-Language']})
+    if response.status_code == 200:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}

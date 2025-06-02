@@ -3,8 +3,9 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
-from assessment.services import assessment_report_services, assessment_permission_services, assessment_services
+from django.db import transaction
+from assessment.services import assessment_report_services, assessment_permission_services, assessment_services, \
+    advice_services, maturity_level_services
 
 
 class AssessmentReportApi(APIView):
@@ -43,12 +44,15 @@ class GraphicalReportApi(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, assessment_id):
-        report_result = assessment_services.load_assessment(request, assessment_id)
-        if report_result["status_code"] == 200:
-            data = report_result["body"]
+        assessment = assessment_services.load_assessment(request, assessment_id)
+        if assessment["status_code"] == 200:
+            data = assessment["body"]
             mode = data.get("mode")
             if mode['code'] == "QUICK":
                 assessment_report_services.prepare_assessment_report(request, assessment_id)
+                data = maturity_level_services.calculate_maturity_level(request, assessment_id)
+                calculate_result = data["body"]
+                advice_services.refresh_advice(request, assessment_id, calculate_result["resultAffected"])
 
         result = assessment_report_services.get_graphical_report(request, assessment_id)
         return Response(data=result["body"], status=result["status_code"])
