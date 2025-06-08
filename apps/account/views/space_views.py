@@ -136,3 +136,10 @@ class SpaceAssessmentListApi(APIView):
     def get(self, request):
         result = space_services.space_assessment_list(request)
         return Response(data=result["body"], status=result["status_code"])
+
+
+class TopSpacesApi(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        result = space_services.get_top_spaces(request)
+        return Response(data=result["body"], status=result["status_code"])
