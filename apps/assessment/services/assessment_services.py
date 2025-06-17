@@ -257,3 +257,12 @@ def update_assessment_mode(request, assessment_id):
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def next_questionnaire(request, assessment_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/next-questionnaire',
+        json=request.data,
+        headers={'Authorization': request.headers['Authorization'],
+                 'Accept-Language': request.headers['Accept-Language']})
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}

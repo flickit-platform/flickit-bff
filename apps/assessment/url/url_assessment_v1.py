@@ -12,6 +12,8 @@ urlpatterns = [
          question_views.AnswerHistoryApi.as_view()),
     path("<uuid:assessment_id>/questionnaires/<int:questionnaire_id>/",
          questionnaire_views.LoadQuestionsWithQuestionnairesApi.as_view()),
+    path("<uuid:assessment_id>/next-questionnaire/",
+         questionnaire_views.LoadQuestionnairesApi.as_view()),
     path("<uuid:assessment_id>/subjects/<int:subject_id>/progress/", reportviews.SubjectProgressApi.as_view()),
     path("<uuid:assessment_id>/subjects/<int:subject_id>/init-insight/", assessment_insight_views.SubjectInitInsightApi.as_view()),
     path("<uuid:assessment_id>/report/attributes/<int:attribute_id>/",

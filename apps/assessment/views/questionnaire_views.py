@@ -36,3 +36,14 @@ class LoadQuestionsWithQuestionnairesApi(APIView):
             result["body"]["permissions"] = permissions_result["body"]["permissions"]
             return Response(data=result["body"], status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+
+class LoadQuestionnairesApi(APIView):
+    permission_classes = [IsAuthenticated]
+    questionnaireId = openapi.Parameter('questionnaireId', openapi.IN_QUERY, description="Questionnaire ID",
+                                        type=openapi.TYPE_INTEGER)
+
+    @swagger_auto_schema(manual_parameters=[questionnaireId])
+    def get(self, request, assessment_id):
+        result = assessment_services.next_questionnaire(request, assessment_id)
+        return Response(data=result["body"], status=result["status_code"])
