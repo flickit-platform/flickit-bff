@@ -4,6 +4,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import datetime
 from assessment.services import assessment_report_services, assessment_permission_services, assessment_services, \
     advice_services, maturity_level_services
 
@@ -49,10 +51,40 @@ class GraphicalReportApi(APIView):
             data = assessment["body"]
             mode = data.get("mode")
             if mode['code'] == "QUICK":
-                assessment_report_services.prepare_assessment_report(request, assessment_id)
+                # Calculate maturity level first
                 data = maturity_level_services.calculate_maturity_level(request, assessment_id)
                 calculate_result = data["body"]
-                advice_services.refresh_advice(request, assessment_id, calculate_result["resultAffected"])
+
+                # Then run both services concurrently
+                with ThreadPoolExecutor(max_workers=2) as executor:
+                    # Define wrapper functions to track execution time
+                    def prepare_with_logging():
+                        print(f"[{datetime.datetime.now()}] Starting prepare_assessment_report")
+                        result = assessment_report_services.prepare_assessment_report(request, assessment_id)
+                        print(f"[{datetime.datetime.now()}] Finished prepare_assessment_report")
+                        return result
+
+                    def refresh_with_logging():
+                        print(f"[{datetime.datetime.now()}] Starting refresh_advice")
+                        result = advice_services.refresh_advice(
+                            request,
+                            assessment_id,
+                            calculate_result["resultAffected"]
+                        )
+                        print(f"[{datetime.datetime.now()}] Finished refresh_advice")
+                        return result
+
+                    # Submit both tasks to the executor
+                    prepare_future = executor.submit(prepare_with_logging)
+                    refresh_future = executor.submit(refresh_with_logging)
+
+                    # Wait for both tasks to complete
+                    for future in as_completed([prepare_future, refresh_future]):
+                        try:
+                            future.result()  # Get the result to catch any exceptions
+                        except Exception as e:
+                            # Handle exceptions if needed
+                            print(f"Service call failed: {e}")
 
         result = assessment_report_services.get_graphical_report(request, assessment_id)
         return Response(data=result["body"], status=result["status_code"])
