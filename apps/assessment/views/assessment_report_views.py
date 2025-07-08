@@ -59,19 +59,15 @@ class GraphicalReportApi(APIView):
                 with ThreadPoolExecutor(max_workers=2) as executor:
                     # Define wrapper functions to track execution time
                     def prepare_with_logging():
-                        print(f"[{datetime.datetime.now()}] Starting prepare_assessment_report")
                         result = assessment_report_services.prepare_assessment_report(request, assessment_id)
-                        print(f"[{datetime.datetime.now()}] Finished prepare_assessment_report")
                         return result
 
                     def refresh_with_logging():
-                        print(f"[{datetime.datetime.now()}] Starting refresh_advice")
                         result = advice_services.refresh_advice(
                             request,
                             assessment_id,
                             calculate_result["resultAffected"]
                         )
-                        print(f"[{datetime.datetime.now()}] Finished refresh_advice")
                         return result
 
                     # Submit both tasks to the executor
