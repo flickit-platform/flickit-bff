@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import datetime
 from assessment.services import assessment_report_services, assessment_permission_services, assessment_services, \
     advice_services, maturity_level_services
 
