@@ -197,3 +197,13 @@ class AssessmentModeApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+class AssessmentSpaceApi(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(request_body = openapi.Schema(type = openapi.TYPE_OBJECT), response = 200)
+    def put(self, request, assessment_id):
+        result = assessment_services.update_assessment_space(request, assessment_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
