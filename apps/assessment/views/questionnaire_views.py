@@ -43,7 +43,7 @@ class LoadQuestionnairesApi(APIView):
     questionnaireId = openapi.Parameter('questionnaireId', openapi.IN_QUERY, description="Questionnaire ID",
                                         type=openapi.TYPE_INTEGER)
 
-    @swagger_auto_schema(manual_parameters=[questionnaireId])
-    def get(self, request, assessment_id):
-        result = assessment_services.next_questionnaire(request, assessment_id)
+    @swagger_auto_schema()
+    def get(self, request, assessment_id, questionnaire_id):
+        result = assessment_services.next_questionnaire(request, assessment_id, questionnaire_id)
         return Response(data=result["body"], status=result["status_code"])
