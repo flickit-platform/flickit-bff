@@ -3,10 +3,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from assessment.services import advice_item_cost_levels_services
+from assessmentplatform.auth.authentication_provider import get_env_based_permissions
 
 
 class AdviceItemCostLevelsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    def get_permissions(self):
+        return get_env_based_permissions()
 
     def get(self, request):
         result = advice_item_cost_levels_services.load_advice_item_cost_levels(request)
