@@ -1,9 +1,12 @@
 import os
+from django.conf import settings
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 def get_env_based_permissions():
-    use_dev_auth = os.getenv("DJANGO_DEV_AUTH", "false").lower() == "true"
+    env_value = os.getenv("DJANGO_DEV_AUTH")
+    if env_value is not None:
+        use_dev_auth = env_value.lower() == "true"
+    else:
+        use_dev_auth = getattr(settings, "DJANGO_DEV_AUTH", False)
 
-    if use_dev_auth:
-        return [AllowAny()]
-    return [IsAuthenticated()]
+    return [AllowAny()] if use_dev_auth else [IsAuthenticated()]

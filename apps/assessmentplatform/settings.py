@@ -174,8 +174,15 @@ OPTIONAL_APPS = (
     PACKAGE_NAME_FILEBROWSER,
     PACKAGE_NAME_GRAPPELLI,
 )
+DJANGO_DEV_AUTH = False
 
-DISABLE_AUTH = os.getenv("DJANGO_DEV_AUTH", "false").lower() == "true"
+from django.conf import settings
+DISABLE_AUTH = (
+    os.getenv("DJANGO_DEV_AUTH").lower() == "true"
+    if os.getenv("DJANGO_DEV_AUTH") is not None
+    else getattr(settings, "DJANGO_DEV_AUTH", False)
+)
+
 if DISABLE_AUTH:
     print("🚫 AUTH DISABLED via DISABLE_AUTH env variable.")
     REST_FRAMEWORK = {
