@@ -7,8 +7,8 @@ from rest_framework import status
 
 def assessment_core_dsl_update(request, assessment_kit_id):
     response = requests.put(ASSESSMENT_URL + f'assessment-core/api/assessment-kits/{assessment_kit_id}/update-by-dsl',
-                            json=request.data,
-                            headers=AuthHeaderProvider(request).get_headers())
+                            headers=AuthHeaderProvider(request).get_headers(),
+                            json=request.data)
 
     if response.status_code == status.HTTP_200_OK:
         return {"Success": True, "body": {"message": "The assessment kit updated successfully. "},

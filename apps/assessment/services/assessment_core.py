@@ -107,14 +107,14 @@ def get_path_info_with_space_id(request, space_id):
 def get_assessment_attribute_report(request, assessment_id, attribute_id):
     response = requests.get(ASSESSMENT_URL +
                             f'assessment-core/api/assessments/{assessment_id}/report/attributes/{attribute_id}',
-                            params=request.query_params,
-                            headers=AuthHeaderProvider(request).get_headers())
+                            headers = AuthHeaderProvider(request).get_headers(),
+                            params=request.query_params)
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
 def get_attribute_stats_report(request, assessment_id, attribute_id):
     response = requests.get(ASSESSMENT_URL +
                             f'assessment-core/api/assessments/{assessment_id}/report/attributes/{attribute_id}/stats',
-                            params=request.query_params,
-                            headers=AuthHeaderProvider(request).get_headers())
+                            headers=AuthHeaderProvider(request).get_headers(),
+                            params=request.query_params)
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
