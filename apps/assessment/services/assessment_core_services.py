@@ -1,14 +1,14 @@
 import requests
 from rest_framework import status
 
+from assessmentplatform.auth.auth_header_provider import AuthHeaderProvider
 from assessmentplatform.settings import ASSESSMENT_URL
 
 
 def load_assessment_details_with_id(request, assessment_id):
     result = dict()
     response = requests.get(ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}',
-                            headers={'Authorization': request.headers['Authorization'],
-                                     'Accept-Language': request.headers['Accept-Language']})
+                            headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == status.HTTP_200_OK:
         data = response.json()
         if not request.user.spaces.filter(id=data["space"]["id"]).exists():
