@@ -1,6 +1,5 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
 from assessment.services import advice_item_priority_levels_services
 from assessmentplatform.auth.authentication_provider import authenticate

@@ -1,10 +1,11 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
 from assessment.services import assessment_report_services, assessment_permission_services, assessment_services, \
     advice_services, maturity_level_services
 from assessmentplatform.auth.authentication_provider import authenticate

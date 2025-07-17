@@ -1,8 +1,8 @@
 from drf_yasg import openapi
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
+
 from assessment.services import assessment_services, assessment_permission_services
 from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services import custom_kit_services

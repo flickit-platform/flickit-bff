@@ -1,6 +1,5 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
 from assessment.services import dashboar_services
 from assessmentplatform.auth.authentication_provider import authenticate

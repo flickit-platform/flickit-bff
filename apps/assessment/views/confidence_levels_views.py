@@ -1,6 +1,5 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
 from assessment.services.confidence_levels_services import get_confidence_levels_in_assessment_core, \
     get_confidence_levels_calculate_in_assessment_core

@@ -3,11 +3,11 @@ from rest_framework import serializers
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework import status
-from assessment.services import evidence_services, assessment_core_services
+
+from assessment.services import evidence_services
 from assessmentplatform.auth.authentication_provider import authenticate
 
 

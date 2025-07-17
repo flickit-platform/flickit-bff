@@ -1,16 +1,15 @@
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from django.http import FileResponse
+from io import BytesIO
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services.dsl_conversion.dsl_conversion_service import DSLConverterService
 from baseinfo.serializers.dsl_serializers import ExcelFileUploadSerializer
-from io import BytesIO
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 from assessmentplatform.settings import EXCEL_SAMPLE_URL
 from baseinfo.services import dsl_services
 from baseinfo.services.dsl_export.kit_to_dsl_converter import KitToDSLConverterService
