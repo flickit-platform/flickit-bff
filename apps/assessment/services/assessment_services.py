@@ -3,22 +3,21 @@ from http import HTTPStatus
 import requests
 
 from assessment.services import assessment_permission_services
+from assessmentplatform.auth.auth_header_provider import AuthHeaderProvider
 from assessmentplatform.settings import ASSESSMENT_URL
 
 
 def get_questionnaires_with_assessment_id(request, assessment_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/questionnaires',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
 def assessment_delete(request, assessment_id):
     response = requests.delete(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 204:
         return {"Success": False, "body": None, "status_code": response.status_code}
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
@@ -28,8 +27,7 @@ def edit_assessment(request, assessment_id):
     response = requests.put(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}',
         json=request.data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
@@ -37,16 +35,14 @@ def create_assessment(request):
     response = requests.post(
         ASSESSMENT_URL + f'assessment-core/api/assessments',
         json=request.data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
 def load_assessment(request, assessment_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
@@ -54,8 +50,7 @@ def list_assessments(request):
     response = requests.get(
         ASSESSMENT_URL + 'assessment-core/api/assessments',
         params=request.query_params,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
@@ -63,8 +58,7 @@ def assessments_comparable_list(request):
     response = requests.get(
         ASSESSMENT_URL + 'assessment-core/api/comparable-assessments',
         params=request.query_params,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
@@ -72,8 +66,7 @@ def assessments_invite_user(request, assessment_id):
     response = requests.post(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/invite',
         json=request.data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -83,16 +76,14 @@ def assessment_invitees(request, assessment_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/invitees',
         params=request.query_params,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
 def assessment_invite_delete(request, invite_id):
     response = requests.delete(
         ASSESSMENT_URL + f'assessment-core/api/assessment-invites/{invite_id}',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 204:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -102,8 +93,7 @@ def assessment_invite_edit(request, invite_id):
     response = requests.put(
         ASSESSMENT_URL + f'assessment-core/api/assessment-invites/{invite_id}',
         json=request.data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -113,8 +103,7 @@ def assessment_migrate_kit_version(request, assessment_id):
     response = requests.post(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/migrate-kit-version',
         json=request.data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -126,8 +115,7 @@ def assign_custom_kit(request, assessment_id, custom_kit_id):
     response = requests.put(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/assign-kit-custom',
         json=data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -137,8 +125,7 @@ def access_assessment_report_grant(request, assessment_id):
     response = requests.post(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/grant-report-access',
         json=request.data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 201:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -147,16 +134,14 @@ def access_assessment_report_grant(request, assessment_id):
 def get_report_users_access(request, assessment_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/users-with-report-access',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
 def get_report_metadata(request, assessment_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/report-metadata',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
@@ -164,8 +149,7 @@ def update_report_metadata(request, assessment_id):
     response = requests.patch(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/report-metadata',
         json=request.data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 201:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -174,8 +158,7 @@ def update_report_metadata(request, assessment_id):
 def get_question_issues(request, assessment_id, question_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/questions/{question_id}/issues',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 def get_pre_advice_info(request, assessment_id):
@@ -185,12 +168,10 @@ def get_pre_advice_info(request, assessment_id):
 
     attributes_response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/attributes',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     maturity_levels_response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/maturity-levels',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
 
     merged_response = {}
     if attributes_response.status_code == 200 and maturity_levels_response.status_code == 200:
@@ -231,8 +212,7 @@ def approve_answer(request, assessment_id):
     response = requests.put(
     ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/approve-answer',
     json = request.data,
-    headers={'Authorization': request.headers['Authorization'],
-            'Accept-Language': request.headers['Accept-Language']})
+    headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -241,8 +221,7 @@ def approve_answer(request, assessment_id):
 def approve_assessment_answers(request, assessment_id):
     response = requests.put(
     ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/approve-answers',
-    headers={'Authorization': request.headers['Authorization'],
-            'Accept-Language': request.headers['Accept-Language']})
+    headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -252,8 +231,7 @@ def update_assessment_mode(request, assessment_id):
     response = requests.put(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/mode',
         json=request.data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -263,6 +241,5 @@ def next_questionnaire(request, assessment_id, questionnaire_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/questionnaires/{questionnaire_id}/next',
         json=request.data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
