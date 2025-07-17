@@ -6,10 +6,11 @@ from rest_framework.response import Response
 
 from assessment.services import question_services, assessment_services
 from assessment.services import assessment_permission_services
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class LoadQuestionnairesWithAssessmentApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         permissions_result = assessment_permission_services.get_assessment_permissions_list(request, assessment_id)
@@ -22,7 +23,7 @@ class LoadQuestionnairesWithAssessmentApi(APIView):
 
 
 class LoadQuestionsWithQuestionnairesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
                                    type=openapi.TYPE_INTEGER)
     page_param = openapi.Parameter('page', openapi.IN_QUERY, description="page param",
@@ -39,7 +40,7 @@ class LoadQuestionsWithQuestionnairesApi(APIView):
 
 
 class LoadQuestionnairesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     questionnaireId = openapi.Parameter('questionnaireId', openapi.IN_QUERY, description="Questionnaire ID",
                                         type=openapi.TYPE_INTEGER)
 

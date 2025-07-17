@@ -5,11 +5,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from assessment.serializers.user_access_serializers import InviteUserWithEmailSerializer
+from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services import user_access_services
 
 
 class AssessmentKitUsersAccessApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_kit_id):
         result = user_access_services.get_assessment_kit_users(assessment_kit_id=assessment_kit_id,
@@ -44,7 +45,7 @@ class DeleteUserAccessToAssessmentKitApi(APIView):
 
 
 class LoadAssessmentKitMinimalInfoApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_kit_id):
         result = user_access_services.get_assessment_kit_info_minimal(assessment_kit_id=assessment_kit_id)

@@ -6,10 +6,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 
 from assessment.services import assessment_analysis_services
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class UploadAnalysisFileApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     parser_classes = [MultiPartParser, FormParser]
 
     @swagger_auto_schema(

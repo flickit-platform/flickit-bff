@@ -4,10 +4,11 @@ from rest_framework.permissions import IsAuthenticated
 
 from assessment.services.confidence_levels_services import get_confidence_levels_in_assessment_core, \
     get_confidence_levels_calculate_in_assessment_core
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class ConfidenceLevelsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request):
         result = get_confidence_levels_in_assessment_core(request)
@@ -15,7 +16,7 @@ class ConfidenceLevelsApi(APIView):
 
 
 class CalculateConfidenceApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def post(self, request, assessment_id):
         result = get_confidence_levels_calculate_in_assessment_core(request, assessment_id)

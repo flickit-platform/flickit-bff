@@ -6,11 +6,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from assessment.serializers.user_access_serializers import InviteUserWithEmailSerializer
+from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services import expert_group_services
 
 
 class ExpertGroupsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request):
         result = expert_group_services.get_expert_group_list(request)
@@ -22,7 +23,7 @@ class ExpertGroupsApi(APIView):
 
 
 class ExpertGroupApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, expert_group_id):
         result = expert_group_services.get_expert_group_details(request, expert_group_id)
@@ -44,7 +45,7 @@ class ExpertGroupApi(APIView):
 
 
 class ExpertGroupMembersApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, expert_group_id):
         result = expert_group_services.get_expert_group_members(request, expert_group_id)
@@ -52,7 +53,7 @@ class ExpertGroupMembersApi(APIView):
 
 
 class ExpertGroupMemberApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def delete(self, request, expert_group_id, user_id):
         result = expert_group_services.delete_expert_group_member(request, expert_group_id, user_id)
@@ -62,7 +63,7 @@ class ExpertGroupMemberApi(APIView):
 
 
 class ExpertGroupInviteMembersApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=InviteUserWithEmailSerializer())
     def post(self, request, expert_group_id):
@@ -75,7 +76,7 @@ class ExpertGroupInviteMembersApi(APIView):
 
 
 class ExpertGroupInviteMembersConfirmApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, expert_group_id, invite_token):
         result = expert_group_services.confirm_expert_group_members(request, expert_group_id, invite_token)
@@ -85,7 +86,7 @@ class ExpertGroupInviteMembersConfirmApi(APIView):
 
 
 class ExpertGroupAssessmentKitListApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
                                    type=openapi.TYPE_INTEGER)
     page_param = openapi.Parameter('page', openapi.IN_QUERY, description="page param",
@@ -98,7 +99,7 @@ class ExpertGroupAssessmentKitListApi(APIView):
 
 
 class ExpertGroupSeenApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, expert_group_id):
         result = expert_group_services.expert_group_seen(request, expert_group_id)
@@ -108,7 +109,7 @@ class ExpertGroupSeenApi(APIView):
 
 
 class ExpertGroupPictureApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     parser_classes = [MultiPartParser, FormParser]
     picture_param = openapi.Parameter('pictureFile', openapi.IN_FORM, description="picture file",
                                       type=openapi.TYPE_FILE, required=True)
@@ -124,7 +125,7 @@ class ExpertGroupPictureApi(APIView):
 
 
 class LeaveExpertGroupAPi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def delete(self, request, expert_group_id):
         result = expert_group_services.expert_group_leave(request, expert_group_id)

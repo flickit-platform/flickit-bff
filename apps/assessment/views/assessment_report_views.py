@@ -7,10 +7,11 @@ from django.db import transaction
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from assessment.services import assessment_report_services, assessment_permission_services, assessment_services, \
     advice_services, maturity_level_services
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class AssessmentReportApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         permissions_result = assessment_permission_services.get_assessment_permissions_list(request, assessment_id)
@@ -22,7 +23,7 @@ class AssessmentReportApi(APIView):
 
 
 class AssessmentSubjectReportApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id, subject_id):
         permissions_result = assessment_permission_services.get_assessment_permissions_list(request, assessment_id)
@@ -34,7 +35,7 @@ class AssessmentSubjectReportApi(APIView):
 
 
 class AssessmentProgressApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         result = assessment_report_services.get_assessment_progress(request, assessment_id)
@@ -42,7 +43,7 @@ class AssessmentProgressApi(APIView):
 
 
 class GraphicalReportApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         assessment = assessment_services.load_assessment(request, assessment_id)
@@ -86,7 +87,7 @@ class GraphicalReportApi(APIView):
 
 
 class ReportPublishStatus(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -98,7 +99,7 @@ class ReportPublishStatus(APIView):
 
 
 class ReportVisibilityStatus(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})

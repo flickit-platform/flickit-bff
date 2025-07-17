@@ -4,10 +4,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from assessment.services import comments_services
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class CommentsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
                                    type=openapi.TYPE_INTEGER)
     page_param = openapi.Parameter('page', openapi.IN_QUERY, description="page param",
@@ -24,7 +25,7 @@ class CommentsApi(APIView):
 
 
 class ResolveCommentsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, assessment_id):
         result = comments_services.resolve_assessment_comments(request, assessment_id)

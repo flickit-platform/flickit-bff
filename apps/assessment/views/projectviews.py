@@ -4,10 +4,11 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from assessment.services import assessment_services
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class AssessmentProjectApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     space_id_param = openapi.Parameter('spaceId', openapi.IN_QUERY, description="space id param",
                                        type=openapi.TYPE_INTEGER)
@@ -25,7 +26,7 @@ class AssessmentProjectApi(APIView):
 
 
 class AssessmentApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         result = assessment_services.load_assessment(request, assessment_id)

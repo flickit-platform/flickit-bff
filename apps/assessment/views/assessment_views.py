@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from assessment.services import assessment_services, assessment_permission_services
+from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services import custom_kit_services
 
 
 class AssessmentApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(type=openapi.TYPE_OBJECT), responses={201: ""})
     def put(self, request, assessment_id):
@@ -17,7 +18,7 @@ class AssessmentApi(APIView):
 
 
 class AssessmentsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(type=openapi.TYPE_OBJECT), responses={201: ""})
     def post(self, request):
@@ -26,7 +27,7 @@ class AssessmentsApi(APIView):
 
 
 class AssessmentsComparableApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     kit_id_param = openapi.Parameter('kitId', openapi.IN_QUERY, description="kit id param",
                                      type=openapi.TYPE_INTEGER)
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
@@ -41,7 +42,7 @@ class AssessmentsComparableApi(APIView):
 
 
 class InviteUsersAssessmentsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(type=openapi.TYPE_OBJECT), responses={200: ""})
     def post(self, request, assessment_id):
@@ -52,7 +53,7 @@ class InviteUsersAssessmentsApi(APIView):
 
 
 class InviteesAssessmentsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
                                    type=openapi.TYPE_INTEGER)
@@ -66,7 +67,7 @@ class InviteesAssessmentsApi(APIView):
 
 
 class AssessmentInvitesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def delete(self, request, invite_id):
         result = assessment_services.assessment_invite_delete(request, invite_id)
@@ -83,7 +84,7 @@ class AssessmentInvitesApi(APIView):
 
 
 class AssessmentMigrateKitVersionApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def post(self, request, assessment_id):
         result = assessment_services.assessment_migrate_kit_version(request, assessment_id)
@@ -93,7 +94,7 @@ class AssessmentMigrateKitVersionApi(APIView):
 
 
 class AssessmentAssignCustomKitApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(type=openapi.TYPE_OBJECT), responses={201: ""})
     def post(self, request, assessment_id):
@@ -110,7 +111,7 @@ class AssessmentAssignCustomKitApi(APIView):
 
 
 class AssessmentPermissionsListApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         result = assessment_permission_services.get_assessment_permissions_list(request, assessment_id)
@@ -118,7 +119,7 @@ class AssessmentPermissionsListApi(APIView):
 
 
 class GrantReportAccessApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(type=openapi.TYPE_OBJECT), responses={201: ""})
     def post(self, request, assessment_id):
@@ -129,7 +130,7 @@ class GrantReportAccessApi(APIView):
 
 
 class UsersWithReportAccessApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         result = assessment_services.get_report_users_access(request, assessment_id)
@@ -137,7 +138,7 @@ class UsersWithReportAccessApi(APIView):
 
 
 class ReportMetadataAPI(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         result = assessment_services.get_report_metadata(request, assessment_id)
@@ -151,7 +152,7 @@ class ReportMetadataAPI(APIView):
         return Response(data=result["body"], status=result["status_code"])
 
 class QuestionIssuesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id, question_id):
         result = assessment_services.get_question_issues(request, assessment_id, question_id)
@@ -159,7 +160,7 @@ class QuestionIssuesApi(APIView):
 
 
 class PreAdviceInfoApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         result = assessment_services.get_pre_advice_info(request, assessment_id)
@@ -167,7 +168,7 @@ class PreAdviceInfoApi(APIView):
 
 
 class ApproveAnswerApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(type=openapi.TYPE_OBJECT), responses={200: ""})
     def put(self, request, assessment_id):
@@ -178,7 +179,7 @@ class ApproveAnswerApi(APIView):
 
 
 class ApproveAssessmentAnswersApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, assessment_id):
         result = assessment_services.approve_assessment_answers(request, assessment_id)
@@ -187,7 +188,7 @@ class ApproveAssessmentAnswersApi(APIView):
         return Response(data=result["body"], status=result["status_code"])
 
 class AssessmentModeApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     mode_param = openapi.Parameter('mode', openapi.IN_QUERY, description="mode",
                                     type=openapi.TYPE_INTEGER)
 

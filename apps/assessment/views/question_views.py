@@ -5,10 +5,11 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
 from assessment.services import question_services
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class AnswerQuestionApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={201: ""})
@@ -18,7 +19,7 @@ class AnswerQuestionApi(APIView):
 
 
 class AnswerHistoryApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
                                    type=openapi.TYPE_INTEGER)
     page_param = openapi.Parameter('page', openapi.IN_QUERY, description="page param",

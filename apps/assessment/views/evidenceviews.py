@@ -8,10 +8,11 @@ from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework import status
 from assessment.services import evidence_services, assessment_core_services
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class EvidencesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={201: ""})
@@ -35,7 +36,7 @@ class EvidencesApi(APIView):
 
 
 class EvidenceApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, evidence_id):
         result = evidence_services.evidence_get_by_id(request, evidence_id)
@@ -56,7 +57,7 @@ class EvidenceApi(APIView):
 
 
 class EvidenceAttachmentsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     parser_classes = [MultiPartParser, FormParser]
     attachment_param = openapi.Parameter('attachment', openapi.IN_FORM, description="attachment file",
                                          type=openapi.TYPE_FILE, required=True)
@@ -74,7 +75,7 @@ class EvidenceAttachmentsApi(APIView):
 
 
 class EvidenceAttachmentApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def delete(self, request, evidence_id, attachment_id):
         result = evidence_services.evidence_delete_attachment(request, evidence_id, attachment_id)
@@ -84,7 +85,7 @@ class EvidenceAttachmentApi(APIView):
 
 
 class EvidenceResolveCommentApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, evidence_id):
         result = evidence_services.evidence_resolve_comment(request, evidence_id)

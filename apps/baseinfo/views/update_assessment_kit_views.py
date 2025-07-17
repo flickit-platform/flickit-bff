@@ -5,11 +5,12 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services import update_assessment_kit_service
 
 
 class AssessmentKitUpdateApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})

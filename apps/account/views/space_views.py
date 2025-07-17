@@ -5,10 +5,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from account.services import space_services
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class SpacesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
+
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
                                    type=openapi.TYPE_INTEGER)
     page_param = openapi.Parameter('page', openapi.IN_QUERY, description="page param",
@@ -25,7 +27,7 @@ class SpacesApi(APIView):
 
 
 class MembersSpaceApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, space_id):
         result = space_services.get_list_members_in_space(request, space_id)
@@ -39,7 +41,7 @@ class MembersSpaceApi(APIView):
 
 
 class MemberSpaceApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def delete(self, request, space_id, user_id):
         result = space_services.delete_member_space(request, space_id, user_id)
@@ -49,7 +51,7 @@ class MemberSpaceApi(APIView):
 
 
 class InviteMembersSpaceApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
                                    type=openapi.TYPE_INTEGER)
     page_param = openapi.Parameter('page', openapi.IN_QUERY, description="page param",
@@ -62,7 +64,7 @@ class InviteMembersSpaceApi(APIView):
 
 
 class InviteMemberInSpaceApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def post(self, request, space_id):
         result = space_services.invite_member_in_space(request, space_id)
@@ -72,7 +74,7 @@ class InviteMemberInSpaceApi(APIView):
 
 
 class SpaceSeenApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, space_id):
         result = space_services.space_seen_service(request, space_id)
@@ -82,7 +84,7 @@ class SpaceSeenApi(APIView):
 
 
 class SpaceApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, space_id):
         result = space_services.get_space(request, space_id)
@@ -104,7 +106,7 @@ class SpaceApi(APIView):
 
 
 class LeaveSpaceApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def delete(self, request, space_id):
         result = space_services.leave_space(request, space_id)
@@ -114,7 +116,7 @@ class LeaveSpaceApi(APIView):
 
 
 class RemoveSpaceInviteApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def delete(self, request, invite_id):
         result = space_services.remove_space_invite(request, invite_id)
@@ -124,7 +126,8 @@ class RemoveSpaceInviteApi(APIView):
 
 
 class SpaceAssessmentListApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
+
     space_id_param = openapi.Parameter('spaceId', openapi.IN_QUERY, description="space id param",
                                        type=openapi.TYPE_INTEGER, required=True)
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
@@ -139,7 +142,7 @@ class SpaceAssessmentListApi(APIView):
 
 
 class TopSpacesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     def get(self, request):
         result = space_services.get_top_spaces(request)
         return Response(data=result["body"], status=result["status_code"])

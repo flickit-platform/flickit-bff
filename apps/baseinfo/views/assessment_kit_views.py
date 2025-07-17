@@ -4,11 +4,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services import assessment_kit_service
 from rest_framework.permissions import AllowAny
 
 class AssessmentKitStateApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_kit_id):
         result = assessment_kit_service.get_assessment_kit_state(request, assessment_kit_id)
@@ -16,7 +17,7 @@ class AssessmentKitStateApi(APIView):
 
 
 class AssessmentKitInfoApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_kit_id):
         result = assessment_kit_service.get_assessment_kit_info(request, assessment_kit_id)
@@ -24,7 +25,7 @@ class AssessmentKitInfoApi(APIView):
 
 
 class AssessmentKitApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def patch(self, request, assessment_kit_id):
         result = assessment_kit_service.update_assessment_kit(request, assessment_kit_id)
@@ -40,7 +41,7 @@ class AssessmentKitApi(APIView):
 
 
 class AssessmentKitDetailsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_kit_id):
         result = assessment_kit_service.get_assessment_kit_details(request, assessment_kit_id)
@@ -48,7 +49,7 @@ class AssessmentKitDetailsApi(APIView):
 
 
 class AssessmentKitDetailsSubjectApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_kit_id, subject_id):
         result = assessment_kit_service.get_assessment_kit_details_subjects(request, assessment_kit_id, subject_id)
@@ -56,7 +57,7 @@ class AssessmentKitDetailsSubjectApi(APIView):
 
 
 class AssessmentKitDetailsAttributesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_kit_id, attribute_id):
         result = assessment_kit_service.get_assessment_kit_details_attributes(request, assessment_kit_id, attribute_id)
@@ -64,7 +65,7 @@ class AssessmentKitDetailsAttributesApi(APIView):
 
 
 class AssessmentKitDetailsQuestionnairesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_kit_id, questionnaire_id):
         result = assessment_kit_service.get_assessment_kit_details_questionnaires(request,
@@ -74,7 +75,7 @@ class AssessmentKitDetailsQuestionnairesApi(APIView):
 
 
 class AssessmentKitDetailsQuestionApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_kit_id, question_id):
         result = assessment_kit_service.get_assessment_kit_details_question(request,
@@ -84,7 +85,7 @@ class AssessmentKitDetailsQuestionApi(APIView):
 
 
 class AssessmentKitDetailsMaturityLevelsAsAttributeApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_kit_id, attribute_id, maturity_level_id):
         result = assessment_kit_service.get_assessment_kit_details_maturity_levels_as_attribute(request,
@@ -95,7 +96,7 @@ class AssessmentKitDetailsMaturityLevelsAsAttributeApi(APIView):
 
 
 class AssessmentKitLikeApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def post(self, request, assessment_kit_id):
         result = assessment_kit_service.like_assessment_kit(request, assessment_kit_id)
@@ -103,7 +104,7 @@ class AssessmentKitLikeApi(APIView):
 
 
 class AssessmentKitsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request):
         result = assessment_kit_service.get_assessment_kits_list(request)
@@ -131,7 +132,7 @@ class PublicAssessmentKitApi(APIView):
         return Response(data=result["body"], status=result["status_code"])
 
 class AssessmentKitsSearchApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     query_param = openapi.Parameter('query', openapi.IN_QUERY, description="search query param",
                                     type=openapi.TYPE_STRING)
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
@@ -146,7 +147,7 @@ class AssessmentKitsSearchApi(APIView):
 
 
 class CloneAssessmentKitApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def post(self, request, assessment_kit_id):
         result = assessment_kit_service.clone_assessment_kit(request, assessment_kit_id)
@@ -154,7 +155,7 @@ class CloneAssessmentKitApi(APIView):
 
 
 class CustomSubjectApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
                                    type=openapi.TYPE_INTEGER)
@@ -170,7 +171,7 @@ class CustomSubjectApi(APIView):
 
 
 class KitLanguageApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={201: ""})

@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from django.http import FileResponse
+
+from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services.dsl_conversion.dsl_conversion_service import DSLConverterService
 from baseinfo.serializers.dsl_serializers import ExcelFileUploadSerializer
 from io import BytesIO
@@ -16,7 +18,7 @@ from baseinfo.services.dsl_export.model_converter import json_to_kit_model
 
 
 class DSLConversionApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     parser_classes = [MultiPartParser, FormParser]
 
     @swagger_auto_schema(
@@ -63,14 +65,14 @@ class DSLConversionApi(APIView):
 
 
 class DSLConversionFileSampleApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request):
         return Response({"url": EXCEL_SAMPLE_URL})
 
 
 class KitToDSLExportApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(
         operation_description="Convert Kit JSON to DSL and return as a zipped file",

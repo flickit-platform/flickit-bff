@@ -7,10 +7,11 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 from account.services import users_services
 from account.services.users_services import get_user_id_by_email
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class UserInfoApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request):
         result = users_services.user_info(request)
@@ -18,7 +19,7 @@ class UserInfoApi(APIView):
 
 
 class UserProfileApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request):
         result = users_services.load_user_profile(request)
@@ -34,7 +35,7 @@ class UserProfileApi(APIView):
 
 
 class LoadUserByEmailApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, email):
         result = get_user_id_by_email(email)
@@ -42,7 +43,7 @@ class LoadUserByEmailApi(APIView):
 
 
 class UserProfilePictureApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     parser_classes = [MultiPartParser, FormParser]
 
     picture_param = openapi.Parameter('pictureFile', openapi.IN_FORM, description="picture file",
