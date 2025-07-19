@@ -107,7 +107,7 @@ def get_public_assessment_kit(request, assessment_kit_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/public/assessment-kits/{assessment_kit_id}',
         params=request.query_params,
-        headers=AuthHeaderProvider(request)._get_header('Accept-Language'))
+        headers=AuthHeaderProvider(request).get_accept_language_header())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
