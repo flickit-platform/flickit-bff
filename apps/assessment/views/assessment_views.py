@@ -200,7 +200,7 @@ class AssessmentModeApi(APIView):
         return Response(data=result["body"], status=result["status_code"])
 
 class AssessmentSpaceApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body = openapi.Schema(type = openapi.TYPE_OBJECT), response = 200)
     def put(self, request, assessment_id):
