@@ -253,3 +253,11 @@ def update_assessment_space(request, assessment_id):
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def get_move_targets(request, assessment_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/move-targets',
+        json=request.data,
+        headers=AuthHeaderProvider(request).get_headers())
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}

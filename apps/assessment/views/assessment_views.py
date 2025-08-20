@@ -208,3 +208,10 @@ class AssessmentSpaceApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+class MoveTargetsApi(APIView):
+    authenticate()
+
+    def get(self, request, assessment_id):
+        result = assessment_services.get_move_targets(request, assessment_id)
+        return Response(data=result["body"], status=result["status_code"])
