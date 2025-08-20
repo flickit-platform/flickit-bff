@@ -25,6 +25,8 @@ urlpatterns = [
          assessment_user_roles_views.UsersAccessToAssessmentApi.as_view()),
     path("<uuid:assessment_id>/mode/",
          assessment_views.AssessmentModeApi.as_view()),
+    path("<uuid:assessment_id>/move/",
+         assessment_views.AssessmentSpaceApi.as_view()),
     path("<uuid:assessment_id>/assessment-user-roles/",
          assessment_user_roles_views.UsersRolesInAssessmentApi.as_view()),
     path("<uuid:assessment_id>/assessment-user-roles/<uuid:user_id>/",
