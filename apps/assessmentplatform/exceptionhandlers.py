@@ -6,6 +6,9 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework import status
 from rest_framework.exceptions import NotAuthenticated, AuthenticationFailed
 
+from assessmentplatform.missing_header_exception import MissingHeaderException
+
+
 def custom_exception_handler(exc, context):
     # Call REST framework's default exception handler first,
     # to get the standard error response.
@@ -33,6 +36,9 @@ def custom_exception_handler(exc, context):
         elif isinstance(exc, NotAuthenticated):
             data = {'message': 'Not Authenticated.'}
             return Response(data, status=status.HTTP_401_UNAUTHORIZED)
+        elif isinstance(exc, MissingHeaderException):
+            data = {'message': str(exc.detail)}
+            return Response(data, status=exc.status_code)
     else:
         if isinstance(exc, PermissionDenied):
             data = {'message': 'You do not have permission to perform this action.'}

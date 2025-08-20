@@ -14,7 +14,7 @@ sentry_sdk.init(
     profiles_sample_rate=1.0,
 )
 
-__version__ = "1.56.0-SNAPSHOT"
+__version__ = "1.58.0-SNAPSHOT"
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
@@ -174,23 +174,48 @@ OPTIONAL_APPS = (
     PACKAGE_NAME_FILEBROWSER,
     PACKAGE_NAME_GRAPPELLI,
 )
+DJANGO_DEV_AUTH = False
 
-REST_FRAMEWORK = {
-    'COERCE_DECIMAL_TO_STRING': False,
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'mozilla_django_oidc.contrib.drf.OIDCAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
-    ],
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-    ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    'PAGE_SIZE': 200,
-    'EXCEPTION_HANDLER': 'assessmentplatform.exceptionhandlers.custom_exception_handler',
-}
+from django.conf import settings
+DISABLE_AUTH = (
+    os.getenv("DJANGO_DEV_AUTH").lower() == "true"
+    if os.getenv("DJANGO_DEV_AUTH") is not None
+    else getattr(settings, "DJANGO_DEV_AUTH", False)
+)
+
+if DISABLE_AUTH:
+    print("🚫 AUTH DISABLED via DISABLE_AUTH env variable.")
+    REST_FRAMEWORK = {
+        'COERCE_DECIMAL_TO_STRING': False,
+        'DEFAULT_AUTHENTICATION_CLASSES': [],
+        'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.AllowAny'
+        ],
+        'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+        ),
+        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+        'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+        'PAGE_SIZE': 200,
+        'EXCEPTION_HANDLER': 'assessmentplatform.exceptionhandlers.custom_exception_handler',
+    }
+else:
+    REST_FRAMEWORK = {
+        'COERCE_DECIMAL_TO_STRING': False,
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'mozilla_django_oidc.contrib.drf.OIDCAuthentication',
+        ),
+        'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.IsAuthenticated'
+        ],
+        'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+        ),
+        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+        'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+        'PAGE_SIZE': 200,
+        'EXCEPTION_HANDLER': 'assessmentplatform.exceptionhandlers.custom_exception_handler',
+    }
 
 ASSESSMENT_SERVER_PORT = os.environ.get('ASSESSMENT_SERVER_PORT')
 ASSESSMENT_URL = f"http://assessment:{ASSESSMENT_SERVER_PORT}/"

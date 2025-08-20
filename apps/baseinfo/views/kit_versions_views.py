@@ -2,13 +2,13 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
+from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services import kit_versions_services
 
 
 class KitVersionsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, kit_version_id):
         result = kit_versions_services.load_kit_with_version_id(request, kit_version_id)
@@ -22,7 +22,7 @@ class KitVersionsApi(APIView):
 
 
 class KitVersionSubjectsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -42,7 +42,7 @@ class KitVersionSubjectsApi(APIView):
 
 
 class KitVersionSubjectApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -62,7 +62,7 @@ class KitVersionSubjectApi(APIView):
 
 
 class SubjectChangeOrderApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -74,7 +74,7 @@ class SubjectChangeOrderApi(APIView):
 
 
 class KitVersionMaturityLevelsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -94,7 +94,7 @@ class KitVersionMaturityLevelsApi(APIView):
 
 
 class KitVersionMaturityLevelApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -114,7 +114,7 @@ class KitVersionMaturityLevelApi(APIView):
 
 
 class MaturityLevelsChangeOrderApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -126,7 +126,7 @@ class MaturityLevelsChangeOrderApi(APIView):
 
 
 class LevelCompetencesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -148,7 +148,7 @@ class LevelCompetencesApi(APIView):
 
 
 class LevelCompetenceApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -166,7 +166,7 @@ class LevelCompetenceApi(APIView):
 
 
 class KitActiveApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def post(self, request, kit_version_id):
         result = kit_versions_services.kit_active(request, kit_version_id)
@@ -176,7 +176,7 @@ class KitActiveApi(APIView):
 
 
 class AttributesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -196,7 +196,7 @@ class AttributesApi(APIView):
 
 
 class AttributeApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -214,7 +214,7 @@ class AttributeApi(APIView):
 
 
 class AttributeChangeOrderApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -226,7 +226,7 @@ class AttributeChangeOrderApi(APIView):
 
 
 class QuestionnairesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={201: ""})
@@ -246,7 +246,7 @@ class QuestionnairesApi(APIView):
 
 
 class QuestionnaireApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -264,7 +264,7 @@ class QuestionnaireApi(APIView):
 
 
 class QuestionnaireChangeOrderApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -276,7 +276,7 @@ class QuestionnaireChangeOrderApi(APIView):
 
 
 class QuestionsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={201: ""})
@@ -286,7 +286,7 @@ class QuestionsApi(APIView):
 
 
 class QuestionApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -304,7 +304,7 @@ class QuestionApi(APIView):
 
 
 class QuestionsChangeOrderApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -324,7 +324,7 @@ class QuestionImpactsApi(APIView):
 
 
 class QuestionImpactApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -342,7 +342,7 @@ class QuestionImpactApi(APIView):
 
 
 class QuestionImpactListApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, kit_version_id, question_id):
         result = kit_versions_services.get_question_impacts_list(request, kit_version_id, question_id)
@@ -350,7 +350,7 @@ class QuestionImpactListApi(APIView):
 
 
 class AnswerOptionsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={201: ""})
@@ -360,7 +360,7 @@ class AnswerOptionsApi(APIView):
 
 
 class AnswerOptionApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -378,7 +378,7 @@ class AnswerOptionApi(APIView):
 
 
 class QuestionOptionsListApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, kit_version_id, question_id):
         result = kit_versions_services.get_question_options_list(request, kit_version_id, question_id)
@@ -386,7 +386,7 @@ class QuestionOptionsListApi(APIView):
 
 
 class QuestionnaireListQuestionsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
                                    type=openapi.TYPE_INTEGER)
     page_param = openapi.Parameter('page', openapi.IN_QUERY, description="page param",
@@ -399,7 +399,7 @@ class QuestionnaireListQuestionsApi(APIView):
 
 
 class AnswerRangesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
                                    type=openapi.TYPE_INTEGER)
     page_param = openapi.Parameter('page', openapi.IN_QUERY, description="page param",
@@ -418,7 +418,7 @@ class AnswerRangesApi(APIView):
 
 
 class AnswerRangeApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -430,7 +430,7 @@ class AnswerRangeApi(APIView):
 
 
 class AnswerOptionInAnswerRangeApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={201: ""})
@@ -440,14 +440,14 @@ class AnswerOptionInAnswerRangeApi(APIView):
 
 
 class KitVersionValidateApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, kit_version_id):
         result = kit_versions_services.load_kit_version_validate(request, kit_version_id)
         return Response(data=result["body"], status=result["status_code"])
 
 class MeasuresApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, kit_version_id):
         result = kit_versions_services.get_measures_list(request, kit_version_id)
@@ -465,7 +465,7 @@ class MeasuresApi(APIView):
         result = kit_versions_services.create_measures(request, kit_version_id)
         return Response(data=result["body"], status=result["status_code"])
 class MeasureChangeOrderApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})

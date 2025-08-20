@@ -2,14 +2,14 @@ import requests
 from rest_framework import status
 
 from account.services import space_services
+from assessmentplatform.auth.auth_header_provider import AuthHeaderProvider
 from assessmentplatform.settings import ASSESSMENT_URL, ASSESSMENT_SERVER_PORT
 
 
 def get_subject_progress(request, assessment_id, subject_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/subjects/{subject_id}/progress',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
@@ -24,11 +24,10 @@ def get_questionnaires(request, assessment_id, questionnaire_id):
     page = 0
     while True:
         query_params = {"page": page}
-        headers = {'Authorization': request.headers.get('Authorization')}
         result = requests.get(
             ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/questionnaires',
             params=query_params,
-            headers=headers
+            headers=AuthHeaderProvider(request).get_headers()
         )
 
         if result.status_code != 200:
@@ -108,14 +107,14 @@ def get_path_info_with_space_id(request, space_id):
 def get_assessment_attribute_report(request, assessment_id, attribute_id):
     response = requests.get(ASSESSMENT_URL +
                             f'assessment-core/api/assessments/{assessment_id}/report/attributes/{attribute_id}',
-                            params=request.query_params, headers={'Authorization': request.headers['Authorization'],
-                                                                  'Accept-Language': request.headers['Accept-Language']})
+                            params=request.query_params,
+                            headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
 def get_attribute_stats_report(request, assessment_id, attribute_id):
     response = requests.get(ASSESSMENT_URL +
                             f'assessment-core/api/assessments/{assessment_id}/report/attributes/{attribute_id}/stats',
-                            params=request.query_params, headers={'Authorization': request.headers['Authorization'],
-                                                                  'Accept-Language': request.headers['Accept-Language']})
+                            params=request.query_params,
+                            headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}

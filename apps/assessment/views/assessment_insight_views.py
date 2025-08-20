@@ -1,13 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+
 from assessment.services import assessment_insight_services
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class AssessmentInsightApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={201: ""})
@@ -22,7 +23,7 @@ class AssessmentInsightApi(APIView):
         return Response(data=result["body"], status=result["status_code"])
 
 class AssessmentInsightsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         result = assessment_insight_services.get_assessment_insights(request, assessment_id)
@@ -30,7 +31,7 @@ class AssessmentInsightsApi(APIView):
 
 
 class SubjectInitInsightApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def post(self, request, assessment_id, subject_id):
         result = assessment_insight_services.init_subject_insight(request,
@@ -40,7 +41,7 @@ class SubjectInitInsightApi(APIView):
 
 
 class AssessmentSubjectLoadInsightApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id, subject_id):
         result = assessment_insight_services.get_assessment_subject_insights(request, assessment_id, subject_id)
@@ -56,7 +57,7 @@ class AssessmentSubjectLoadInsightApi(APIView):
 
 
 class ApproveAttributeInsightApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, assessment_id, attribute_id):
         result = assessment_insight_services.approve_attribute_insight(request, assessment_id, attribute_id)
@@ -66,7 +67,7 @@ class ApproveAttributeInsightApi(APIView):
 
 
 class ApproveSubjectInsightApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, assessment_id, subject_id):
         result = assessment_insight_services.approve_subject_insight(request, assessment_id, subject_id)
@@ -76,7 +77,7 @@ class ApproveSubjectInsightApi(APIView):
 
 
 class InitAssessmentInsightApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def post(self, request, assessment_id):
         result = assessment_insight_services.init_assessment_insight(request, assessment_id)
@@ -85,7 +86,7 @@ class InitAssessmentInsightApi(APIView):
         return Response(data=result["body"], status=result["status_code"])
 
 class ApproveAssessmentInsightApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, assessment_id):
         result = assessment_insight_services.approve_assessment_insight(request, assessment_id)
@@ -95,7 +96,7 @@ class ApproveAssessmentInsightApi(APIView):
 
 
 class AssessmentAttributeInsightApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -111,7 +112,7 @@ class AssessmentAttributeInsightApi(APIView):
 
 
 class AssessmentAttributeAiInsightApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -121,7 +122,7 @@ class AssessmentAttributeAiInsightApi(APIView):
 
 
 class ApproveAllAssessmentInsightsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, assessment_id):
         result = assessment_insight_services.approve_all_assessment_insights(request, assessment_id)
@@ -131,7 +132,7 @@ class ApproveAllAssessmentInsightsApi(APIView):
 
 
 class GenerateAllAssessmentInsightsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, assessment_id):
         result = assessment_insight_services.generate_all_assessment_insights(request, assessment_id)
@@ -141,7 +142,7 @@ class GenerateAllAssessmentInsightsApi(APIView):
 
 
 class RegenerateExpiredAssessmentInsightsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, assessment_id):
         result = assessment_insight_services.regenerate_expired_assessment_insights(request, assessment_id)
@@ -151,7 +152,7 @@ class RegenerateExpiredAssessmentInsightsApi(APIView):
 
 
 class ApproveExpiredAssessmentInsightsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def put(self, request, assessment_id):
         result = assessment_insight_services.approve_expired_assessment_insights(request, assessment_id)
@@ -161,7 +162,7 @@ class ApproveExpiredAssessmentInsightsApi(APIView):
 
 
 class GetAssessmentInsightsIssuesApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         result = assessment_insight_services.get_assessment_insights_issues(request, assessment_id)

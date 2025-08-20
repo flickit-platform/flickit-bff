@@ -1,14 +1,14 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from assessment.services import assessment_user_roles_services
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class AssessmentUserRolesListApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request):
         result = assessment_user_roles_services.assessment_user_roles_list(request)
@@ -16,7 +16,7 @@ class AssessmentUserRolesListApi(APIView):
 
 
 class UserRolesInAssessmentApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -34,7 +34,7 @@ class UserRolesInAssessmentApi(APIView):
 
 
 class UsersRolesInAssessmentApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
@@ -46,7 +46,7 @@ class UsersRolesInAssessmentApi(APIView):
 
 
 class UsersAccessToAssessmentApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
     size_param = openapi.Parameter('size', openapi.IN_QUERY, description="size param",
                                    type=openapi.TYPE_INTEGER)
     page_param = openapi.Parameter('page', openapi.IN_QUERY, description="page param",

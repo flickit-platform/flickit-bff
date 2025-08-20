@@ -1,4 +1,6 @@
 import requests
+
+from assessmentplatform.auth.auth_header_provider import AuthHeaderProvider
 from assessmentplatform.settings import ASSESSMENT_URL
 from baseinfo.services.user_access_services import check_email_exists
 
@@ -8,8 +10,7 @@ def get_expert_group_list(request):
         ASSESSMENT_URL + 'assessment-core/api/expert-groups',
         json=request.data,
         params=request.query_params,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
 
@@ -22,14 +23,12 @@ def create_expert_group(request):
             ASSESSMENT_URL + 'assessment-core/api/expert-groups',
             data=data,
             files={'picture': (file.name, file, file.content_type)},
-            headers={'Authorization': request.headers['Authorization'],
-                     'Accept-Language': request.headers['Accept-Language']})
+            headers=AuthHeaderProvider(request).get_headers())
     else:
         response = requests.post(
             ASSESSMENT_URL + 'assessment-core/api/expert-groups',
             data=request.data,
-            headers={'Authorization': request.headers['Authorization'],
-                     'Accept-Language': request.headers['Accept-Language']})
+            headers=AuthHeaderProvider(request).get_headers())
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
 
@@ -38,8 +37,7 @@ def get_expert_group_details(request, expert_group_id):
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}',
         json=request.data,
         params=request.query_params,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
 
@@ -47,8 +45,7 @@ def get_expert_group_members(request, expert_group_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}/members',
         params=request.query_params,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
 
@@ -59,8 +56,7 @@ def add_expert_group_members(request, expert_group_id, request_body):
     response = requests.post(
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}/invite',
         json={"userId": result["body"]["id"]},
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
 
     if response.status_code == 201:
         return {"Success": True, "body": "", "status_code": response.status_code}
@@ -70,8 +66,7 @@ def add_expert_group_members(request, expert_group_id, request_body):
 def confirm_expert_group_members(request, expert_group_id, invite_token):
     response = requests.put(
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}/invite/{invite_token}/confirm',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
 
     if response.status_code == 200:
         return {"Success": True, "body": "", "status_code": response.status_code}
@@ -81,8 +76,7 @@ def confirm_expert_group_members(request, expert_group_id, invite_token):
 def delete_expert_group_member(request, expert_group_id, user_id):
     response = requests.delete(
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}/members/{user_id}',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
 
     if response.status_code == 204:
         return {"Success": True, "body": None, "status_code": response.status_code}
@@ -92,8 +86,7 @@ def delete_expert_group_member(request, expert_group_id, user_id):
 def delete_expert_group(request, expert_group_id):
     response = requests.delete(
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
 
     if response.status_code == 204:
         return {"Success": True, "body": "", "status_code": response.status_code}
@@ -104,16 +97,14 @@ def get_assessment_kit_list_with_expert_group_id(request, expert_group_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}/assessment-kits',
         params=request.query_params,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
 
 def expert_group_seen(request, expert_group_id):
     response = requests.put(
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}/seen',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 200:
         return {"Success": True, "body": "", "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -123,8 +114,7 @@ def update_expert_group(request, expert_group_id):
     response = requests.put(
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}',
         json=request.data,
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 200:
         return {"Success": True, "body": "", "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -138,16 +128,14 @@ def update_expert_group_picture(request, expert_group_id):
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}/picture',
         data=data,
         files={'pictureFile': (file.name, file, file.content_type)},
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
 
 def delete_expert_group_picture(request, expert_group_id):
     response = requests.delete(
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}/picture',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 204:
         return {"Success": True, "body": "", "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
@@ -156,8 +144,7 @@ def delete_expert_group_picture(request, expert_group_id):
 def expert_group_leave(request, expert_group_id):
     response = requests.delete(
         ASSESSMENT_URL + f'assessment-core/api/expert-groups/{expert_group_id}/leave',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     if response.status_code == 204:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}

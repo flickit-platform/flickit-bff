@@ -1,6 +1,7 @@
 import requests, types
 
 from assessment.services.assessment_report_services import get_assessment_subject_report
+from assessmentplatform.auth.auth_header_provider import AuthHeaderProvider
 from assessmentplatform.settings import ASSESSMENT_URL
 
 from assessment.services import maturity_level_services
@@ -19,16 +20,14 @@ class DictObject:
 def get_assessment_progres(request, assessment_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/progress',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
 def get_subject_progres(request, assessment_id, subject_id):
     response = requests.get(
         ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/subjects/{subject_id}/progress',
-        headers={'Authorization': request.headers['Authorization'],
-                 'Accept-Language': request.headers['Accept-Language']})
+        headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 

@@ -2,13 +2,13 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
 from assessment.services import advice_services
+from assessmentplatform.auth.authentication_provider import authenticate
 
 
 class AdviceView(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def post(self, request, assessment_id):
         result = advice_services.get_advice(request, assessment_id)
@@ -16,7 +16,7 @@ class AdviceView(APIView):
 
 
 class AdviceNarrationView(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     def get(self, request, assessment_id):
         result = advice_services.get_advice_narration(request, assessment_id)
@@ -39,7 +39,7 @@ class AdviceNarrationView(APIView):
 
 
 class AdviceNarrationAiView(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(
         operation_description="Get advice narration for a specific assessment.",
@@ -71,7 +71,7 @@ class AdviceNarrationAiView(APIView):
 
 
 class AdviceItemsApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={201: ""})
@@ -93,7 +93,7 @@ class AdviceItemsApi(APIView):
 
 
 class AdviceItemApi(APIView):
-    permission_classes = [IsAuthenticated]
+    authenticate()
 
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={200: ""})
