@@ -174,22 +174,17 @@ OPTIONAL_APPS = (
     PACKAGE_NAME_FILEBROWSER,
     PACKAGE_NAME_GRAPPELLI,
 )
-DJANGO_DEV_AUTH = False
 
-from django.conf import settings
-DISABLE_AUTH = (
-    os.getenv("DJANGO_DEV_AUTH").lower() == "true"
-    if os.getenv("DJANGO_DEV_AUTH") is not None
-    else getattr(settings, "DJANGO_DEV_AUTH", False)
-)
+import os
 
-if DISABLE_AUTH:
-    print("🚫 AUTH DISABLED via DISABLE_AUTH env variable.")
+if os.getenv('DJANGO_DEV_AUTH') == 'true':
     REST_FRAMEWORK = {
         'COERCE_DECIMAL_TO_STRING': False,
-        'DEFAULT_AUTHENTICATION_CLASSES': [],
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'assessmentplatform.auth.dev_auth.DevMockAuthentication',
+        ),
         'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.AllowAny'
+            'rest_framework.permissions.IsAuthenticated',
         ],
         'DEFAULT_RENDERER_CLASSES': (
             'rest_framework.renderers.JSONRenderer',
@@ -206,7 +201,7 @@ else:
             'mozilla_django_oidc.contrib.drf.OIDCAuthentication',
         ),
         'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticated'
+            'rest_framework.permissions.IsAuthenticated',
         ],
         'DEFAULT_RENDERER_CLASSES': (
             'rest_framework.renderers.JSONRenderer',
@@ -216,6 +211,7 @@ else:
         'PAGE_SIZE': 200,
         'EXCEPTION_HANDLER': 'assessmentplatform.exceptionhandlers.custom_exception_handler',
     }
+
 
 ASSESSMENT_SERVER_PORT = os.environ.get('ASSESSMENT_SERVER_PORT')
 ASSESSMENT_URL = f"http://assessment:{ASSESSMENT_SERVER_PORT}/"

@@ -2,18 +2,21 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from assessment.serializers.user_access_serializers import InviteUserWithEmailSerializer
 from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services import user_access_services
 
+from assessmentplatform.auth.authentication_provider import AuthHeaderProvider
 
 class AssessmentKitUsersAccessApi(APIView):
     authenticate()
 
     def get(self, request, assessment_kit_id):
+        auth_provider = AuthHeaderProvider(request)
         result = user_access_services.get_assessment_kit_users(assessment_kit_id=assessment_kit_id,
-                                                               authorization_header=request.headers['Authorization'],
+                                                               authorization_header=auth_provider.get_authorization_header(),
                                                                query_params=request.query_params
                                                                )
         return Response(data=result["body"], status=result["status_code"])
