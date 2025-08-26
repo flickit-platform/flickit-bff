@@ -2,11 +2,11 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
 from assessment.serializers.user_access_serializers import InviteUserWithEmailSerializer
 from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services import user_access_services
+
 
 class AssessmentKitUsersAccessApi(APIView):
     authenticate()
