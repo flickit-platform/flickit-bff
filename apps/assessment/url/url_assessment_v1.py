@@ -25,6 +25,8 @@ urlpatterns = [
          assessment_user_roles_views.UsersAccessToAssessmentApi.as_view()),
     path("<uuid:assessment_id>/mode/",
          assessment_views.AssessmentModeApi.as_view()),
+    path("<uuid:assessment_id>/move/",
+         assessment_views.AssessmentSpaceApi.as_view()),
     path("<uuid:assessment_id>/assessment-user-roles/",
          assessment_user_roles_views.UsersRolesInAssessmentApi.as_view()),
     path("<uuid:assessment_id>/assessment-user-roles/<uuid:user_id>/",
@@ -55,6 +57,8 @@ urlpatterns = [
          assessment_insight_views.AssessmentAttributeInsightApi.as_view()),
     path("<uuid:assessment_id>/attributes/<int:attribute_id>/measures/",
          assessment_attribute_measures_views.AssessmentAttributeMeasuresApi.as_view()),
+    path("<uuid:assessment_id>/attributes/<int:attribute_id>/measures/<int:measure_id>/",
+         assessment_attribute_measures_views.AssessmentAttributeMeasureQuestionsApi.as_view()),
     path("<uuid:assessment_id>/attributes/<int:attribute_id>/ai-insight/",
          assessment_insight_views.AssessmentAttributeAiInsightApi.as_view()),
     path("<uuid:assessment_id>/approve-insights/",
@@ -77,4 +81,5 @@ urlpatterns = [
     path("<uuid:assessment_id>/report-metadata/", assessment_views.ReportMetadataAPI.as_view()),
     path("<uuid:assessment_id>/resolve-comments/", comments_views.ResolveCommentsApi.as_view()),
     path("<uuid:assessment_id>/questions/<int:question_id>/issues/", assessment_views.QuestionIssuesApi.as_view()),
+    path("<uuid:assessment_id>/move-targets/", assessment_views.MoveTargetsApi.as_view()),
 ]

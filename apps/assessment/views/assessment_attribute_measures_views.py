@@ -11,3 +11,10 @@ class AssessmentAttributeMeasuresApi(APIView):
     def get(self, request, assessment_id, attribute_id):
         result = attribute_measure_services.get_list_measures(request, assessment_id, attribute_id)
         return Response(result["body"], result["status_code"])
+
+class AssessmentAttributeMeasureQuestionsApi(APIView):
+    authenticate()
+
+    def get(self, request, assessment_id, attribute_id, measure_id):
+        result = attribute_measure_services.get_list_questions(request, assessment_id, attribute_id, measure_id)
+        return Response(result["body"], result["status_code"])
