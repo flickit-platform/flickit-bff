@@ -18,7 +18,6 @@ class UserSurveysApi(APIView):
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
 
-
     @swagger_auto_schema(request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT), responses={201: ""})
     def post(self, request):
