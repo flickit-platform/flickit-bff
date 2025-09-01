@@ -77,3 +77,12 @@ def refresh_advice(request, assessment_id, result_affected):
     if response.status_code == 200:
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
+
+def approve_advice_narration(request, assessment_id):
+    response = requests.put(ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/approve-advice-narration',
+                            json=request.data,
+                            headers=AuthHeaderProvider(request).get_headers())
+    if response.status_code == 200:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
