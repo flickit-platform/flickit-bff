@@ -108,3 +108,12 @@ class AdviceItemApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+
+class ApproveAdviceNarrationApi(APIView):
+    authenticate()
+
+    def put(self, request, assessment_id):
+        result = advice_services.approve_advice_narration(request, assessment_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
