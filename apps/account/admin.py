@@ -15,9 +15,6 @@ class CustomUserAdmin(BaseUserAdmin):
             _("Permissions"),
             {
                 "fields": (
-                    "is_active",
-                    "is_staff",
-                    "is_superuser",
                     "groups",
                     "user_permissions",
                 ),
@@ -36,8 +33,8 @@ class CustomUserAdmin(BaseUserAdmin):
         ),
     )
 
-    list_display = ("email", "display_name", "is_staff")
-    list_filter = ("is_staff", "is_superuser", "is_active", "groups")
+    list_display = ("email", "display_name")
+    list_filter = ("groups",)
     search_fields = ("email", "display_name")
     ordering = ('email',)
     filter_horizontal = (
