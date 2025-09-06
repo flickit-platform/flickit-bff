@@ -39,6 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     picture = models.ImageField(upload_to='user/images', null=True, validators=[validate_file_size])
     bio = models.CharField(null=True, max_length=400)
     linkedin = models.URLField(null=True, blank=True)
+    last_login = models.DateTimeField(blank=True, null=True)
 
     objects = CustomUserManager()
 
@@ -56,10 +57,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return True
-    
-    @property
-    def last_login(self):
-        return None
 
     class Meta:
         db_table = 'fau_user'
