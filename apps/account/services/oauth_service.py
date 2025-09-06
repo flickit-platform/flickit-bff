@@ -29,6 +29,9 @@ def get_user_object(claims):
     user_info = get_user_by_email(email)
     if user_info['Success']:
         user_info = json_obj_change_case(user_info['body'])
+        
+        user_info.pop("last_login", None)
+
         user = User(**user_info)
         return user
     else:
