@@ -31,6 +31,9 @@ def get_user_object(claims):
         user_info = json_obj_change_case(user_info['body'])
         
         user_info.pop("last_login", None)
+        user_info.pop("is_staff", None)
+        user_info.pop("is_superuser", None)
+        user_info.pop("is_active", None)
 
         user = User(**user_info)
         return user

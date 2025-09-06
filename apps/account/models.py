@@ -40,23 +40,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     bio = models.CharField(null=True, max_length=400)
     linkedin = models.URLField(null=True, blank=True)
     last_login = models.DateTimeField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['display_name']
-
-    @property
-    def is_superuser(self):
-        return True
-    
-    @property
-    def is_active(self):
-        return True
-    
-    @property
-    def is_staff(self):
-        return True
 
     class Meta:
         db_table = 'fau_user'
