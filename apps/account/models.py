@@ -39,10 +39,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     picture = models.ImageField(upload_to='user/images', null=True, validators=[validate_file_size])
     bio = models.CharField(null=True, max_length=400)
     linkedin = models.URLField(null=True, blank=True)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_active = models.BooleanField(default=True)
-    is_superuser = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
