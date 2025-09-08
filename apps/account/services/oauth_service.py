@@ -17,23 +17,11 @@ def change_case(string: str):
                     else i for i in string]).lstrip('_')
 
 
-def json_obj_change_case(obj):
-
-    if isinstance(obj, dict):
-        new_obj = {}
-        for k, v in obj.items():
-            new_key = k.lower() if isinstance(k, str) else k
-            new_obj[new_key] = json_obj_change_case(v)
-        return new_obj
-
-    elif isinstance(obj, list):
-        return [json_obj_change_case(i) for i in obj]
-
-    elif isinstance(obj, tuple):
-        return tuple(json_obj_change_case(i) for i in obj)
-
-    else:
-        return obj
+def json_obj_change_case(obj: dict):
+    for i in obj:
+        obj[change_case(i)] = obj.pop(i)
+    obj["is_superuser"] = obj.pop("is_super_user")
+    return obj
 
 
 def get_user_object(claims):
