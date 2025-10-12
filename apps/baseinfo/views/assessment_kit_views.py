@@ -92,6 +92,16 @@ class AssessmentKitDetailsMaturityLevelsAsAttributeApi(APIView):
                                                                                                 attribute_id,
                                                                                                 maturity_level_id)
         return Response(data=result["body"], status=result["status_code"])
+    
+    
+class AssessmentKitDetailsMeasureApi(APIView):
+    authenticate()
+
+    def get(self, request, assessment_kit_id, measure_id):
+        result = assessment_kit_service.get_assessment_kit_details_measure(request,
+                                                                            assessment_kit_id,
+                                                                            measure_id)
+        return Response(data=result["body"], status=result["status_code"])    
 
 
 class AssessmentKitLikeApi(APIView):
