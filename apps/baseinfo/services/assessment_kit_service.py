@@ -60,6 +60,11 @@ def get_assessment_kit_details_maturity_levels_as_attribute(request, assessment_
         headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
+def get_assessment_kit_details_measure(request, assessment_kit_id, measure_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/assessment-kits/{assessment_kit_id}/details/measures/{measure_id}',
+        headers=AuthHeaderProvider(request).get_headers())
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 def update_assessment_kit(request, assessment_kit_id):
     response = requests.patch(
