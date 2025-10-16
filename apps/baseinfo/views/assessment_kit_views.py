@@ -38,6 +38,28 @@ class AssessmentKitApi(APIView):
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
 
+class AssessmentKitDslApi(APIView):
+    authenticate()
+
+    @swagger_auto_schema(
+        operation_description="Upload an Excel file and convert it to DSL format.",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'file': openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    format=openapi.FORMAT_BINARY,
+                    description='Excel file to upload and convert'
+                )
+            },
+            required=['file']
+        ),
+        consumes=['multipart/form-data'],
+        responses={200: "Success", 400: "Bad Request"},
+    )
+    def post(self, request, assessment_kit_id):
+        result = assessment_kit_service.excel_to_dsl(request)
+        return Response(data=result["body"], status=result["status_code"])
 
 class AssessmentKitDetailsApi(APIView):
     authenticate()
