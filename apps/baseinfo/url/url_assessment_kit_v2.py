@@ -4,6 +4,7 @@ from baseinfo.views import assessment_kit_views
 
 urlpatterns = [
     path("", assessment_kit_views.AssessmentKitsApi.as_view()),
+    path("excel-to-dsl", assessment_kit_views.AssessmentKitDslApi.as_view()),
     path("<str:assessment_kit_id>/stats/", assessment_kit_views.AssessmentKitStateApi.as_view()),
     path("<str:assessment_kit_id>/info/", assessment_kit_views.AssessmentKitInfoApi.as_view()),
     path("<str:assessment_kit_id>/", assessment_kit_views.AssessmentKitApi.as_view()),
