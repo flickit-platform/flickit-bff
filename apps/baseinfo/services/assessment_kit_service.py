@@ -85,6 +85,13 @@ def delete_assessment_kit(request, assessment_kit_id):
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
 
+def excel_to_dsl(request):
+    response = requests.post(
+        ASSESSMENT_URL + f'assessment-core/api/assessment-kits/excel-to-dsl',
+        headers=AuthHeaderProvider(request).get_headers())
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
+
 def like_assessment_kit(request, assessment_kit_id):
     response = requests.post(
         ASSESSMENT_URL + f'assessment-core/api/assessment-kits/{assessment_kit_id}/likes',
