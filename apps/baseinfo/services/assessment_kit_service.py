@@ -100,13 +100,15 @@ def excel_to_dsl(request):
     content_type = (response.headers.get('Content-Type') or '').lower()
     is_zip = 'zip' in content_type or 'octet-stream' in content_type
 
-    return {
-        "Success": is_zip,
-        "body": response.content if is_zip else None,
-        "status_code": response.status_code,
-        "is_zip": is_zip,
-        "filename": "dsl_files.zip" if is_zip else None
-    }
+    if is_zip:
+        return {
+            "Success": is_zip,
+            "body": response.content if is_zip else None,
+            "status_code": response.status_code,
+            "is_zip": is_zip,
+            "filename": "dsl_files.zip" if is_zip else None
+        }
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}    
 
 
 def like_assessment_kit(request, assessment_kit_id):
