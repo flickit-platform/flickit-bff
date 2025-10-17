@@ -86,10 +86,27 @@ def delete_assessment_kit(request, assessment_kit_id):
 
 
 def excel_to_dsl(request):
+    file = request.data.get('file')
+    data = dict(request.data)
+    data.pop('file', None)
+
     response = requests.post(
-        ASSESSMENT_URL + f'assessment-core/api/assessment-kits/excel-to-dsl',
-        headers=AuthHeaderProvider(request).get_headers())
-    return {"Success": True, "body": response.json(), "status_code": response.status_code}
+        ASSESSMENT_URL + 'assessment-core/api/assessment-kits/excel-to-dsl',
+        data=data,
+        files={'excelFile': (file.name, file, file.content_type)},
+        headers=AuthHeaderProvider(request).get_headers()
+    )
+
+    content_type = (response.headers.get('Content-Type') or '').lower()
+    is_zip = 'zip' in content_type or 'octet-stream' in content_type
+
+    return {
+        "Success": is_zip,
+        "body": response.content if is_zip else None,
+        "status_code": response.status_code,
+        "is_zip": is_zip,
+        "filename": "dsl_files.zip" if is_zip else None
+    }
 
 
 def like_assessment_kit(request, assessment_kit_id):

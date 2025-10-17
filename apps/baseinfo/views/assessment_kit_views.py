@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
@@ -6,6 +7,8 @@ from rest_framework.response import Response
 from assessmentplatform.auth.authentication_provider import authenticate
 from baseinfo.services import assessment_kit_service
 from rest_framework.permissions import AllowAny
+from baseinfo.serializers.dsl_serializers import ExcelFileUploadSerializer
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class AssessmentKitStateApi(APIView):
     authenticate()
@@ -39,26 +42,27 @@ class AssessmentKitApi(APIView):
         return Response(data=result["body"], status=result["status_code"])
 
 class AssessmentKitDslApi(APIView):
-    authenticate()
+    parser_classes = [MultiPartParser, FormParser]
 
     @swagger_auto_schema(
-        operation_description="Upload an Excel file and convert it to DSL format.",
-        request_body=openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                'file': openapi.Schema(
-                    type=openapi.TYPE_STRING,
-                    format=openapi.FORMAT_BINARY,
-                    description='Excel file to upload and convert'
-                )
-            },
-            required=['file']
-        ),
-        consumes=['multipart/form-data'],
-        responses={200: "Success", 400: "Bad Request"},
+        operation_description="Convert Excel file to DSL and return as a zipped file",
+        manual_parameters=[],
+        responses={
+            200: openapi.Response(
+                description="A zip file containing the DSL files",
+                content_type='application/zip',
+                schema=openapi.Schema(type=openapi.TYPE_FILE)
+            ),
+        },
     )
-    def post(self, request, assessment_kit_id):
+    def post(self, request):
         result = assessment_kit_service.excel_to_dsl(request)
+
+        if result.get("is_zip"):
+            response = HttpResponse(result["body"], content_type='application/zip')
+            response['Content-Disposition'] = f'attachment; filename={result["filename"]}'
+            return response
+
         return Response(data=result["body"], status=result["status_code"])
 
 class AssessmentKitDetailsApi(APIView):
