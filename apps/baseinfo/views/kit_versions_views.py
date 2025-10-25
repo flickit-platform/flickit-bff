@@ -427,6 +427,12 @@ class AnswerRangeApi(APIView):
         if result["Success"]:
             return Response(status=result["status_code"])
         return Response(data=result["body"], status=result["status_code"])
+    
+    def delete(self, request, kit_version_id, answer_range_id):
+        result = kit_versions_services.delete_answer_range(request, kit_version_id, answer_range_id)
+        if result["Success"]:
+            return Response(status=result["status_code"])
+        return Response(data=result["body"], status=result["status_code"])
 
 
 class AnswerOptionInAnswerRangeApi(APIView):
