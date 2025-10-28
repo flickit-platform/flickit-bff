@@ -65,13 +65,6 @@ def evidence_delete_attachment(request, evidence_id, attachment_id):
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
 
-def evidence_get_by_id(request, evidence_id):
-    response = requests.get(
-        ASSESSMENT_URL + f'assessment-core/api/evidences/{evidence_id}',
-        headers=AuthHeaderProvider(request).get_headers())
-    return {"Success": True, "body": response.json(), "status_code": response.status_code}
-
-
 def evidence_resolve_comment(request, evidence_id):
     response = requests.put(
         ASSESSMENT_URL + f'assessment-core/api/evidences/{evidence_id}/resolve',
