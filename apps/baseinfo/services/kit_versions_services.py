@@ -370,6 +370,15 @@ def update_answer_range(request, kit_version_id, answer_range_id):
         return {"Success": True, "body": None, "status_code": response.status_code}
     return {"Success": False, "body": response.json(), "status_code": response.status_code}
 
+def delete_answer_range(request, kit_version_id, answer_range_id):
+    response = requests.delete(
+        ASSESSMENT_URL + f'assessment-core/api/kit-versions/{kit_version_id}/answer-ranges/{answer_range_id}',
+        json=request.data,
+        headers=AuthHeaderProvider(request).get_headers())
+    if response.status_code == 204:
+        return {"Success": True, "body": None, "status_code": response.status_code}
+    return {"Success": False, "body": response.json(), "status_code": response.status_code}
+
 
 def create_answer_option(request, kit_version_id):
     response = requests.post(
