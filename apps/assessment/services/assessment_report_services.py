@@ -10,13 +10,6 @@ def get_assessment_report(request, assessment_id):
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
 
-def get_assessment_subject_report(request, assessment_id, subject_id):
-    response = requests.get(ASSESSMENT_URL +
-                            f'assessment-core/api/assessments/{assessment_id}/report/subjects/{subject_id}',
-                            headers=AuthHeaderProvider(request).get_headers())
-    return {"Success": True, "body": response.json(), "status_code": response.status_code}
-
-
 def get_assessment_progress(request, assessment_id):
     response = requests.get(ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/progress',
                             headers=AuthHeaderProvider(request).get_headers())

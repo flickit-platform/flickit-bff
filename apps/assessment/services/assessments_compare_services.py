@@ -148,43 +148,6 @@ def __get_subject_ids(subjects):
     return subject_ids
 
 
-def get_subject_details(request, assessment, subjects, subjects_list):
-    subject_ids = __get_subject_ids(subjects)
-    if len(subjects_list) == 0:
-        for subject_id in subject_ids:
-            subject_details = dict()
-            subject_response = DictObject(
-                **get_assessment_subject_report(request, assessment.id, subject_id)["body"])
-            if subject_id in subject_details:
-                result_assessment_details = __get_assessment_details_for_subject(request, assessment, subject_response)
-                subject_details["assessments"].append(
-                )
-                subject_details["attributes"] = __get_attributes_details_for_subject(subject_response, assessment,
-                                                                                     subject_details["attributes"])
-
-            else:
-                subject_details["id"] = subject_response.subject.id
-                subject_details["title"] = subject_response.subject.title
-                subject_details["assessments"] = list()
-                subject_details["attributes"] = list()
-                subject_details["assessments"].append(__get_assessment_details_for_subject(request, assessment,
-                                                                                           subject_response))
-                subject_details["attributes"] = __get_attributes_details_for_subject(subject_response, assessment,
-                                                                                     subject_details["attributes"])
-            subjects_list.append(subject_details)
-    else:
-        for i in range(len(subjects_list)):
-            subject_response = DictObject(
-                **get_assessment_subject_report(request, assessment.id, subjects_list[i]["id"])["body"])
-            subjects_list[i]["assessments"].append(
-                __get_assessment_details_for_subject(request, assessment, subject_response))
-
-            subjects_list[i]["attributes"] = __get_attributes_details_for_subject(subject_response, assessment,
-                                                                                  subjects_list[i]["attributes"])
-
-    return subjects_list
-
-
 def get_assessment_details(request, assessment_id):
     result = assessment_report_services.get_assessment_report(request=request, assessment_id=assessment_id)
     assessment_report = DictObject(**result["body"])
