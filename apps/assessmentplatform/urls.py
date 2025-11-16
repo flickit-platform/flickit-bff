@@ -29,7 +29,6 @@ urlpatterns = [
     path('api/v1/advice-item-impact-levels/', include('assessment.url.url_advice_item_impact_levels')),
     path('api/v2/assessments/', include('assessment.url.url_assessment_v2')),
     path('api/v1/assessment-invites/', include('assessment.url.url_assessment_invites_v1')),
-    path('api/v1/assessments-compare/', include('assessment.url.url_assessments_compare_v1')),
     path('api/v1/comparable-assessments/', include('assessment.url.url_comparable_assessments_v1')),
     path('api/v1/assessment-user-roles/', include('assessment.url.url_assessment_user_roles_v1')),
     path('api/v1/evidences/', include('assessment.url.url_evidences')),

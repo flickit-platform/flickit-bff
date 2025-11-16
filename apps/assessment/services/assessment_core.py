@@ -6,13 +6,6 @@ from assessmentplatform.auth.auth_header_provider import AuthHeaderProvider
 from assessmentplatform.settings import ASSESSMENT_URL, ASSESSMENT_SERVER_PORT
 
 
-def get_subject_progress(request, assessment_id, subject_id):
-    response = requests.get(
-        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/subjects/{subject_id}/progress',
-        headers=AuthHeaderProvider(request).get_headers())
-    return {"Success": True, "body": response.json(), "status_code": response.status_code}
-
-
 def get_title_by_id(data, target_id):
     for item in data:
         if item.get("id") == target_id:
