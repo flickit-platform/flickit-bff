@@ -7,16 +7,6 @@ from assessment.services import assessment_core
 from assessmentplatform.auth.authentication_provider import authenticate
 
 
-class SubjectProgressApi(APIView):
-    authenticate()
-
-    def get(self, request, assessment_id, subject_id):
-        result = assessment_core.get_subject_progress(request,
-                                                      assessment_id,
-                                                      subject_id)
-        return Response(result["body"], result["status_code"])
-
-
 class AssessmentAttributesReportApi(APIView):
     authenticate()
 
