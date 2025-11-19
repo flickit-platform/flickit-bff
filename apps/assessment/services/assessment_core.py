@@ -57,7 +57,6 @@ def get_path_info_with_assessment_id(request, assessments_details):
     if "questionnaire_id" in request.query_params:
         questionnaire_id = int(request.query_params["questionnaire_id"])
         questionnaire = get_questionnaires(request, assessments_details["id"], questionnaire_id)
-        print("## ", questionnaire)
         if(questionnaire["code"] != 200):
             return {
                 "Success": False,
@@ -92,8 +91,6 @@ def get_path_info_with_assessment_id(request, assessments_details):
         "space": space
     }
 
-
-    print("questionnaire&&&&&&&", questionnaire)
     if questionnaire:
         result["body"]["questionnaire"] = questionnaire
 
