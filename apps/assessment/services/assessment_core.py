@@ -30,11 +30,13 @@ def get_questionnaires(request, assessment_id, questionnaire_id):
             }
 
         response_body = result.json()
-        result_body = response_body.get("result", {})
-        questionnaires_list = result_body.get("items", [])
+        questionnaires_list = response_body.get("items", [])
         title = get_title_by_id(questionnaires_list, questionnaire_id)
         if title:
-            return title
+            return {
+                "code": 200,
+                "result": title
+            }
 
         if len(questionnaires_list) < response_body.get("size", 0):
             break
@@ -55,14 +57,15 @@ def get_path_info_with_assessment_id(request, assessments_details):
     if "questionnaire_id" in request.query_params:
         questionnaire_id = int(request.query_params["questionnaire_id"])
         questionnaire = get_questionnaires(request, assessments_details["id"], questionnaire_id)
-        if(questionnaire['result']['code'] != 200):
+        print("## ", questionnaire)
+        if(questionnaire["code"] != 200):
             return {
                 "Success": False,
                 "body": {"code": questionnaire['result']['code'], "message": questionnaire['result']['message']},
                 "status_code": status.HTTP_400_BAD_REQUEST
             }
         if questionnaire is not None:
-            questionnaire = {"id": questionnaire_id, "title": questionnaire}
+            questionnaire = {"id": questionnaire_id, "title": questionnaire["result"]}
         else:
             return {
                 "Success": False,
@@ -89,6 +92,8 @@ def get_path_info_with_assessment_id(request, assessments_details):
         "space": space
     }
 
+
+    print("questionnaire&&&&&&&", questionnaire)
     if questionnaire:
         result["body"]["questionnaire"] = questionnaire
 
