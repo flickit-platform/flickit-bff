@@ -24,10 +24,14 @@ def get_questionnaires(request, assessment_id, questionnaire_id):
         )
 
         if result.status_code != 200:
-            return None
+            return {
+                "code": result.status_code,
+                "result": result.json() if result.content else None
+            }
 
         response_body = result.json()
-        questionnaires_list = response_body.get("items", [])
+        result_body = response_body.get("result", {})
+        questionnaires_list = result_body.get("items", [])
         title = get_title_by_id(questionnaires_list, questionnaire_id)
         if title:
             return title
@@ -37,7 +41,11 @@ def get_questionnaires(request, assessment_id, questionnaire_id):
 
         page += 1
 
-    return None
+    return {
+        "code": 200,
+        "result": None
+    }
+
 
 
 def get_path_info_with_assessment_id(request, assessments_details):
@@ -46,9 +54,15 @@ def get_path_info_with_assessment_id(request, assessments_details):
 
     if "questionnaire_id" in request.query_params:
         questionnaire_id = int(request.query_params["questionnaire_id"])
-        questionnaire_title = get_questionnaires(request, assessments_details["id"], questionnaire_id)
-        if questionnaire_title is not None:
-            questionnaire = {"id": questionnaire_id, "title": questionnaire_title}
+        questionnaire = get_questionnaires(request, assessments_details["id"], questionnaire_id)
+        if(questionnaire['result']['code'] != 200):
+            return {
+                "Success": False,
+                "body": {"code": questionnaire['result']['code'], "message": questionnaire['result']['message']},
+                "status_code": status.HTTP_400_BAD_REQUEST
+            }
+        if questionnaire is not None:
+            questionnaire = {"id": questionnaire_id, "title": questionnaire}
         else:
             return {
                 "Success": False,
