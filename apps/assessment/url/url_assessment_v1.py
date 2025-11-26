@@ -81,5 +81,6 @@ urlpatterns = [
     path("<uuid:assessment_id>/report-metadata/", assessment_views.ReportMetadataAPI.as_view()),
     path("<uuid:assessment_id>/resolve-comments/", comments_views.ResolveCommentsApi.as_view()),
     path("<uuid:assessment_id>/questions/<int:question_id>/issues/", assessment_views.QuestionIssuesApi.as_view()),
+    path("<uuid:assessment_id>/questions/<int:question_id>/", assessment_views.AssessmentQuestionIApi.as_view()),
     path("<uuid:assessment_id>/move-targets/", assessment_views.MoveTargetsApi.as_view()),
 ]
