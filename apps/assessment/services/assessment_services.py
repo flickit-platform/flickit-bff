@@ -161,6 +161,12 @@ def get_question_issues(request, assessment_id, question_id):
         headers=AuthHeaderProvider(request).get_headers())
     return {"Success": True, "body": response.json(), "status_code": response.status_code}
 
+def get_assessment_question(request, assessment_id, question_id):
+    response = requests.get(
+        ASSESSMENT_URL + f'assessment-core/api/assessments/{assessment_id}/questions/{question_id}',
+        headers=AuthHeaderProvider(request).get_headers())
+    return {"Success": True, "body": response.json(), "status_code": response.status_code}
+
 def get_pre_advice_info(request, assessment_id):
     permissions_result = assessment_permission_services.get_assessment_permissions_list(request, assessment_id)
     if permissions_result.get("createAdvice", False):
